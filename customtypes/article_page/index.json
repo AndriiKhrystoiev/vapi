@@ -1,20 +1,23 @@
 {
   "format": "page",
-  "id": "home_page",
-  "label": "Home page",
-  "repeatable": false,
+  "id": "article_page",
+  "label": "Article Page",
+  "repeatable": true,
   "status": true,
   "json": {
     "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "UID"
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "strategy_section": {
-              "type": "SharedSlice"
-            },
-            "guide_roadmap": {
+            "use_case_detail": {
               "type": "SharedSlice"
             }
           }

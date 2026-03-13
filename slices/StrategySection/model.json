@@ -1,0 +1,71 @@
+{
+  "id": "strategy_section",
+  "type": "SharedSlice",
+  "name": "StrategySection",
+  "description": "Strategy section with title, description, metrics, and key outcomes",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default variation",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "single": "heading1"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "chapters_count": {
+          "type": "Text",
+          "config": {
+            "label": "Chapters Count"
+          }
+        },
+        "tools_count": {
+          "type": "Text",
+          "config": {
+            "label": "Practical Tools Count"
+          }
+        },
+        "read_time": {
+          "type": "Text",
+          "config": {
+            "label": "Read Time"
+          }
+        },
+        "key_outcomes_label": {
+          "type": "Text",
+          "config": {
+            "label": "Key Outcomes Label"
+          }
+        },
+        "outcomes": {
+          "type": "Group",
+          "config": {
+            "label": "Key Outcomes",
+            "fields": {
+              "outcome_text": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Outcome Text",
+                  "single": "paragraph"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

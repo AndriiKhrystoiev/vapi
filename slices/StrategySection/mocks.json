@@ -1,0 +1,75 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Native"
+						}
+					}
+				]
+			},
+			"description": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Laboris quis officia minim. Incididunt cillum nostrud irure culpa laboris nulla officia ea."
+						}
+					}
+				]
+			},
+			"chapters_count": {
+				"__TYPE__": "FieldContent",
+				"value": "expression",
+				"type": "Text"
+			},
+			"tools_count": {
+				"__TYPE__": "FieldContent",
+				"value": "rubbed",
+				"type": "Text"
+			},
+			"read_time": {
+				"__TYPE__": "FieldContent",
+				"value": "fine",
+				"type": "Text"
+			},
+			"key_outcomes_label": {
+				"__TYPE__": "FieldContent",
+				"value": "physical",
+				"type": "Text"
+			},
+			"outcomes": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"outcome_text",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Ex minim enim elit nisi aliqua reprehenderit fugiat. Lorem in sit laborum."
+											}
+										}
+									]
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

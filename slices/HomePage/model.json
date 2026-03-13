@@ -12,6 +12,17 @@
       "description": "Default variation",
       "imageUrl": "",
       "primary": {
+        "top_bar": {
+          "type": "Link",
+          "config": {
+            "label": "Top bar",
+            "select": "document",
+            "repeat": false,
+            "customtypes": [
+              "top_bar"
+            ]
+          }
+        },
         "title": {
           "type": "StructuredText",
           "config": {
@@ -34,7 +45,10 @@
             "label": "CTA Buttons",
             "allowText": true,
             "repeat": true,
-            "variants": ["Primary", "Secondary"],
+            "variants": [
+              "Primary",
+              "Secondary"
+            ],
             "select": null
           }
         },
@@ -80,6 +94,28 @@
                       "type": "Boolean",
                       "config": {
                         "label": "Expanded by default"
+                      }
+                    },
+                    "chapter_link": {
+                      "type": "Link",
+                      "config": {
+                        "label": "Chapter link",
+                        "placeholder": "",
+                        "select": null,
+                        "allowTargetBlank": true,
+                        "allowText": false,
+                        "repeat": false
+                      }
+                    },
+                    "document_link": {
+                      "type": "Link",
+                      "config": {
+                        "label": "Document link",
+                        "placeholder": "Add a link to a document",
+                        "select": null,
+                        "allowTargetBlank": true,
+                        "allowText": true,
+                        "repeat": true
                       }
                     }
                   }

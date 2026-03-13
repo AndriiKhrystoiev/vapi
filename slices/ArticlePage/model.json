@@ -1,0 +1,68 @@
+{
+  "id": "use_case_detail",
+  "type": "SharedSlice",
+  "name": "ArticlePage",
+  "description": "A detailed use case content section with heading, rich text descriptions, and multiple CTA buttons",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation with heading, content, and CTAs",
+      "version": "initial",
+      "docURL": "...",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading1",
+            "placeholder": "Where Voice Agents Work"
+          }
+        },
+        "content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Content",
+            "placeholder": "Describe the use case",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink,heading3,heading2,list-item,o-list-item,image"
+          }
+        },
+        "prevArticle": {
+          "type": "Link",
+          "config": {
+            "label": "Prev article",
+            "placeholder": "",
+            "allowText": true,
+            "select": "web"
+          }
+        },
+        "nextArticle": {
+          "type": "Link",
+          "config": {
+            "label": "Next article",
+            "placeholder": "",
+            "allowText": true,
+            "select": "web"
+          }
+        },
+        "worksheetTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Worksheet Title"
+          }
+        },
+        "worksheetCta": {
+          "type": "Link",
+          "config": {
+            "label": "Worksheet CTA",
+            "allowText": true,
+            "select": "web"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

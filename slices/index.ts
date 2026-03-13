@@ -4,4 +4,7 @@ import dynamic from "next/dynamic";
 
 export const components = {
   guide_roadmap: dynamic(() => import("./HomePage")),
+  strategy_section: dynamic(() => import("./StrategySection")),
+  use_case_detail: dynamic(() => import("./ArticlePage")),
+  voice_agent_playbook: dynamic(() => import("./TopBar")),
 };

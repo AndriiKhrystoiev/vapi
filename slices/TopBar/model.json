@@ -1,0 +1,27 @@
+{
+  "id": "voice_agent_playbook",
+  "type": "SharedSlice",
+  "name": "TopBar",
+  "description": "Header section with title and CTA button for Voice Agent Playbook",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default variation with heading and CTA button",
+      "imageUrl": "",
+      "primary": {
+        "cta_button": {
+          "type": "Link",
+          "config": {
+            "label": "CTA Button",
+            "allowText": true,
+            "select": null
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

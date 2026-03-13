@@ -69,7 +69,72 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
-type HomePageDocumentDataSlicesSlice = GuideRoadmapSlice;
+type ArticlePageDocumentDataSlicesSlice = UseCaseDetailSlice;
+
+/**
+ * Content for Article Page documents
+ */
+interface ArticlePageDocumentData {
+  /**
+   * Slice Zone field in *Article Page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<ArticlePageDocumentDataSlicesSlice>; /**
+   * Meta Title field in *Article Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: article_page.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Article Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: article_page.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Article Page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_page.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Article Page document from Prismic
+ *
+ * - **API ID**: `article_page`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ArticlePageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<ArticlePageDocumentData>,
+    "article_page",
+    Lang
+  >;
+
+type HomePageDocumentDataSlicesSlice = StrategySectionSlice | GuideRoadmapSlice;
 
 /**
  * Content for Home page documents
@@ -134,7 +199,79 @@ export type HomePageDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomePageDocument;
+type StrategySectionDocumentDataSlicesSlice = StrategySectionSlice;
+
+/**
+ * Content for Strategy Section documents
+ */
+interface StrategySectionDocumentData {
+  /**
+   * Slice Zone field in *Strategy Section*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<StrategySectionDocumentDataSlicesSlice>;
+}
+
+/**
+ * Strategy Section document from Prismic
+ *
+ * - **API ID**: `strategy_section`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type StrategySectionDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<StrategySectionDocumentData>,
+    "strategy_section",
+    Lang
+  >;
+
+type TopBarDocumentDataSlicesSlice = VoiceAgentPlaybookSlice;
+
+/**
+ * Content for Top bar documents
+ */
+interface TopBarDocumentData {
+  /**
+   * Slice Zone field in *Top bar*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: top_bar.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<TopBarDocumentDataSlicesSlice>;
+}
+
+/**
+ * Top bar document from Prismic
+ *
+ * - **API ID**: `top_bar`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TopBarDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<TopBarDocumentData>,
+    "top_bar",
+    Lang
+  >;
+
+export type AllDocumentTypes =
+  | ArticlePageDocument
+  | HomePageDocument
+  | StrategySectionDocument
+  | TopBarDocument;
 
 /**
  * Item in *HomePage → Default → Primary → Roadmap Parts → Sections*
@@ -169,6 +306,34 @@ export interface GuideRoadmapSliceDefaultPrimaryPartsSectionsItem {
    * - **Documentation**: https://prismic.io/docs/fields/boolean
    */
   expanded: prismic.BooleanField;
+
+  /**
+   * Chapter link field in *HomePage → Default → Primary → Roadmap Parts → Sections*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_roadmap.default.primary.parts[].sections[].chapter_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  chapter_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Document link field in *HomePage → Default → Primary → Roadmap Parts → Sections*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Add a link to a document
+   * - **API ID Path**: guide_roadmap.default.primary.parts[].sections[].document_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  document_link: prismic.Repeatable<
+    prismic.LinkField<string, string, unknown, prismic.FieldState, never>
+  >;
 }
 
 /**
@@ -212,6 +377,16 @@ export interface GuideRoadmapSliceDefaultPrimaryPartsItem {
  * Primary content in *HomePage → Default → Primary*
  */
 export interface GuideRoadmapSliceDefaultPrimary {
+  /**
+   * Top bar field in *HomePage → Default → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_roadmap.default.primary.top_bar
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  top_bar: prismic.ContentRelationshipField<"top_bar">;
+
   /**
    * Title field in *HomePage → Default → Primary*
    *
@@ -291,6 +466,292 @@ export type GuideRoadmapSlice = prismic.SharedSlice<
   GuideRoadmapSliceVariation
 >;
 
+/**
+ * Item in *StrategySection → Default → Primary → Key Outcomes*
+ */
+export interface StrategySectionSliceDefaultPrimaryOutcomesItem {
+  /**
+   * Outcome Text field in *StrategySection → Default → Primary → Key Outcomes*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.outcomes[].outcome_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  outcome_text: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *StrategySection → Default → Primary*
+ */
+export interface StrategySectionSliceDefaultPrimary {
+  /**
+   * Title field in *StrategySection → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *StrategySection → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Chapters Count field in *StrategySection → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.chapters_count
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  chapters_count: prismic.KeyTextField;
+
+  /**
+   * Practical Tools Count field in *StrategySection → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.tools_count
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  tools_count: prismic.KeyTextField;
+
+  /**
+   * Read Time field in *StrategySection → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.read_time
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  read_time: prismic.KeyTextField;
+
+  /**
+   * Key Outcomes Label field in *StrategySection → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.key_outcomes_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  key_outcomes_label: prismic.KeyTextField;
+
+  /**
+   * Key Outcomes field in *StrategySection → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_section.default.primary.outcomes[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  outcomes: prismic.GroupField<
+    Simplify<StrategySectionSliceDefaultPrimaryOutcomesItem>
+  >;
+}
+
+/**
+ * Default variation for StrategySection Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default variation
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type StrategySectionSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<StrategySectionSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *StrategySection*
+ */
+type StrategySectionSliceVariation = StrategySectionSliceDefault;
+
+/**
+ * StrategySection Shared Slice
+ *
+ * - **API ID**: `strategy_section`
+ * - **Description**: Strategy section with title, description, metrics, and key outcomes
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type StrategySectionSlice = prismic.SharedSlice<
+  "strategy_section",
+  StrategySectionSliceVariation
+>;
+
+/**
+ * Primary content in *ArticlePage → Default → Primary*
+ */
+export interface UseCaseDetailSliceDefaultPrimary {
+  /**
+   * Heading field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Where Voice Agents Work
+   * - **API ID Path**: use_case_detail.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Content field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Describe the use case
+   * - **API ID Path**: use_case_detail.default.primary.content
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Prev article field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: use_case_detail.default.primary.prevArticle
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  prevArticle: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Next article field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: use_case_detail.default.primary.nextArticle
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  nextArticle: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Worksheet Title field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: use_case_detail.default.primary.worksheetTitle
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  worksheetTitle: prismic.KeyTextField;
+
+  /**
+   * Worksheet CTA field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: use_case_detail.default.primary.worksheetCta
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  worksheetCta: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
+ * Default variation for ArticlePage Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default variation with heading, content, and CTAs
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type UseCaseDetailSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<UseCaseDetailSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ArticlePage*
+ */
+type UseCaseDetailSliceVariation = UseCaseDetailSliceDefault;
+
+/**
+ * ArticlePage Shared Slice
+ *
+ * - **API ID**: `use_case_detail`
+ * - **Description**: A detailed use case content section with heading, rich text descriptions, and multiple CTA buttons
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type UseCaseDetailSlice = prismic.SharedSlice<
+  "use_case_detail",
+  UseCaseDetailSliceVariation
+>;
+
+/**
+ * Primary content in *TopBar → Default → Primary*
+ */
+export interface VoiceAgentPlaybookSliceDefaultPrimary {
+  /**
+   * CTA Button field in *TopBar → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: voice_agent_playbook.default.primary.cta_button
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  cta_button: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
+ * Default variation for TopBar Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default variation with heading and CTA button
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type VoiceAgentPlaybookSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<VoiceAgentPlaybookSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *TopBar*
+ */
+type VoiceAgentPlaybookSliceVariation = VoiceAgentPlaybookSliceDefault;
+
+/**
+ * TopBar Shared Slice
+ *
+ * - **API ID**: `voice_agent_playbook`
+ * - **Description**: Header section with title and CTA button for Voice Agent Playbook
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type VoiceAgentPlaybookSlice = prismic.SharedSlice<
+  "voice_agent_playbook",
+  VoiceAgentPlaybookSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -312,9 +773,18 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      ArticlePageDocument,
+      ArticlePageDocumentData,
+      ArticlePageDocumentDataSlicesSlice,
       HomePageDocument,
       HomePageDocumentData,
       HomePageDocumentDataSlicesSlice,
+      StrategySectionDocument,
+      StrategySectionDocumentData,
+      StrategySectionDocumentDataSlicesSlice,
+      TopBarDocument,
+      TopBarDocumentData,
+      TopBarDocumentDataSlicesSlice,
       AllDocumentTypes,
       GuideRoadmapSlice,
       GuideRoadmapSliceDefaultPrimaryPartsSectionsItem,
@@ -322,6 +792,19 @@ declare module "@prismicio/client" {
       GuideRoadmapSliceDefaultPrimary,
       GuideRoadmapSliceVariation,
       GuideRoadmapSliceDefault,
+      StrategySectionSlice,
+      StrategySectionSliceDefaultPrimaryOutcomesItem,
+      StrategySectionSliceDefaultPrimary,
+      StrategySectionSliceVariation,
+      StrategySectionSliceDefault,
+      UseCaseDetailSlice,
+      UseCaseDetailSliceDefaultPrimary,
+      UseCaseDetailSliceVariation,
+      UseCaseDetailSliceDefault,
+      VoiceAgentPlaybookSlice,
+      VoiceAgentPlaybookSliceDefaultPrimary,
+      VoiceAgentPlaybookSliceVariation,
+      VoiceAgentPlaybookSliceDefault,
     };
   }
 }

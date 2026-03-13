@@ -1,0 +1,18 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"cta_button": {
+				"key": "eec74870-56c0-4a1a-b9dc-6b9eeb99638e",
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "http://google.com",
+					"text": "frozen"
+				}
+			}
+		},
+		"items": []
+	}
+]
