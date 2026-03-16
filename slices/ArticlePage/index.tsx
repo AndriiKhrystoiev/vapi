@@ -1,11 +1,32 @@
 import { FC } from "react";
-import { Content, asText } from "@prismicio/client";
+import { Content, asText, RichTextField } from "@prismicio/client";
 import { SliceComponentProps, PrismicRichText } from "@prismicio/react";
-import { PrismicNextLink } from "@prismicio/next";
 import Link from "next/link";
-import { DocumentIcon, LinkIcon } from "@/components/icons";
-import ArrowLeft from "@/components/icons/arrow-left";
-import ArrowRight from "@/components/icons/arrow-right";
+import { PrismicNextLink } from "@prismicio/next";
+import { ArrowRight } from "@/components/icons";
+import CTAButton from "@/components/ui/CTAButton";
+import DocumentLinkList from "@/components/shared/DocumentLinkList";
+import ChapterNavLink from "@/components/shared/ChapterNavLink";
+import ArticleTOC from "@/components/shared/ArticleTOC";
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+}
+
+function extractH2Headings(field: RichTextField): { id: string; text: string }[] {
+  if (!field) return [];
+  return field
+    .filter((node) => node.type === "heading2")
+    .map((node) => {
+      const text = "text" in node ? node.text : "";
+      return { id: slugify(text), text };
+    });
+}
 
 interface ArticleContext {
   partNumber?: number | null;
@@ -27,6 +48,7 @@ const UseCaseDetail: FC<UseCaseDetailProps> = ({ slice, context }) => {
   const chapterStr = context?.chapterNumber
     ? String(context.chapterNumber).padStart(2, "0")
     : null;
+  const h2Headings = extractH2Headings(slice.primary.content);
 
   return (
     <section
@@ -46,7 +68,15 @@ const UseCaseDetail: FC<UseCaseDetailProps> = ({ slice, context }) => {
               <span className="mx-2">/</span>
               <span>{headingText}</span>
             </nav>
+          </div>
+        </div>
+      </header>
 
+      {/* Article Content */}
+      <div className="pb-16">
+        <div className="mx-auto max-w-[1440px] px-20">
+          <div className="flex gap-12">
+          <div className="max-w-[734px] min-w-0">
             {/* Part & Chapter metadata */}
             {context?.partNumber != null && (
               <p className="mb-4 font-mono text-sm text-muted uppercase tracking-[1.5px]">
@@ -65,14 +95,6 @@ const UseCaseDetail: FC<UseCaseDetailProps> = ({ slice, context }) => {
             <div className="mb-6 [&_h1]:text-[48px] [&_h1]:leading-[58px] [&_h1]:tracking-[-0.5px] [&_h1]:text-cream [&_h1]:font-medium">
               <PrismicRichText field={slice.primary.heading} />
             </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Article Content */}
-      <div className="pb-16">
-        <div className="mx-auto max-w-[1440px] px-20">
-          <div className="max-w-[734px]">
             {/* Rich text content with full typography styling */}
             <div
               className={[
@@ -88,63 +110,92 @@ const UseCaseDetail: FC<UseCaseDetailProps> = ({ slice, context }) => {
                 "[&_img]:rounded-[3px] [&_img]:my-8 [&_img]:w-full",
               ].join(" ")}
             >
-              <PrismicRichText field={slice.primary.content} />
+              <PrismicRichText
+                field={slice.primary.content}
+                components={{
+                  heading2: ({ children, node }) => (
+                    <h2 id={slugify(node.text)}>{children}</h2>
+                  ),
+                }}
+              />
             </div>
+
+            {/* Worksheet Section */}
+            {slice.primary.worksheetTitle && slice.primary.worksheetCta?.text && (
+              <div className="mt-16 flex flex-col gap-4">
+                <h3 className="font-mono text-xs text-muted uppercase tracking-[1.5px]">
+                  {slice.primary.worksheetTitle}
+                </h3>
+                <DocumentLinkList links={[slice.primary.worksheetCta]} />
+              </div>
+            )}
+
+            {/* Callout Block */}
+            {slice.primary.calloutBlock && slice.primary.calloutBlock.length > 0 && (
+              <div className="mt-12 border-l-[3px] border-accent bg-[#142121] rounded-r-lg px-8 py-8 [&_p]:text-lg [&_p]:leading-8 [&_p]:text-cream">
+                <PrismicRichText field={slice.primary.calloutBlock} />
+              </div>
+            )}
+
+            {/* CTA Cards */}
+            {slice.primary.ctacards && slice.primary.ctacards.length > 0 && (
+              <div className="mt-12 flex flex-col gap-6">
+                {slice.primary.ctacards.map((card, index) => (
+                  <div
+                    key={index}
+                    className="rounded-[8px] border border-border-active bg-surface p-6 flex flex-col gap-3"
+                  >
+                    {card.title && (
+                      <h3 className="text-xl leading-7 text-cream font-semibold">
+                        {card.title}
+                      </h3>
+                    )}
+                    {card.cta_description && (
+                      <p className="text-sm leading-[22px] text-muted">
+                        {card.cta_description}
+                      </p>
+                    )}
+                    {card.cta_link?.text && (
+                      <div className="mt-2">
+                        <PrismicNextLink field={card.cta_link}>
+                          <CTAButton variant="primary" icon={<ArrowRight color="#09090B" />}>
+                            {card.cta_link.text}
+                          </CTAButton>
+                        </PrismicNextLink>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Prev / Next Navigation */}
             <div className="border-t border-border mt-16 pt-10">
               <div className="flex items-center justify-between">
                 {slice.primary.prevArticle?.text ? (
-                  <PrismicNextLink
-                    field={slice.primary.prevArticle}
-                    className="flex items-center gap-4 group"
-                  >
-                    <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1e1e22] border border-transparent group-hover:bg-transparent group-hover:border-border-active transition-colors">
-                      <ArrowLeft />
-                    </span>
-                    <span className="text-lg text-muted group-hover:text-cream transition-colors">
-                      {slice.primary.prevArticle.text}
-                    </span>
-                  </PrismicNextLink>
+                  <ChapterNavLink field={slice.primary.prevArticle} direction="prev" />
                 ) : (
                   <div />
                 )}
-                {slice.primary.nextArticle?.text && (
-                  <PrismicNextLink
-                    field={slice.primary.nextArticle}
-                    className="flex items-center gap-4 group"
-                  >
-                    <span className="text-lg text-muted group-hover:text-cream transition-colors">
-                      {slice.primary.nextArticle.text}
-                    </span>
-                    <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1e1e22] border border-transparent group-hover:bg-transparent group-hover:border-border-active transition-colors">
-                      <ArrowRight />
-                    </span>
-                  </PrismicNextLink>
-                )}
+                <ChapterNavLink field={slice.primary.nextArticle} direction="next" />
               </div>
             </div>
 
-            {/* Worksheet Section */}
-            {slice.primary.worksheetTitle && (
-              <div className="mt-12 p-5 border border-border-active bg-surface rounded-[3px]">
-                <div className="flex items-center justify-between">
-                  <span className="text-cream font-medium text-base">
-                    {slice.primary.worksheetTitle}
-                  </span>
-                  {slice.primary.worksheetCta?.text && (
-                    <PrismicNextLink
-                      field={slice.primary.worksheetCta}
-                      className="flex items-center gap-3 px-4 py-3 border border-border bg-surface hover:bg-background text-link text-sm rounded-[3px] transition-all"
-                    >
-                      <DocumentIcon />
-                      {slice.primary.worksheetCta.text}
-                      <LinkIcon />
-                    </PrismicNextLink>
-                  )}
-                </div>
+          </div>
+
+          {/* TOC Sidebar — sticky, scrolls with content then sticks to top */}
+          {h2Headings.length > 0 && (
+            <div className="hidden lg:block w-[320px] shrink-0">
+              <div className="sticky top-24">
+                <ArticleTOC
+                  headings={h2Headings}
+                  chapterLabel={chapterStr ? `Chapter ${chapterStr}` : undefined}
+                  totalSections={h2Headings.length}
+                />
               </div>
-            )}
+            </div>
+          )}
+
           </div>
         </div>
       </div>

@@ -47,6 +47,15 @@
             "select": "web"
           }
         },
+        "calloutBlock": {
+          "type": "StructuredText",
+          "config": {
+            "label": "CalloutBlock",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading3,heading4,heading5,heading6,strong,em,hyperlink,embed,list-item,o-list-item,rtl"
+          }
+        },
         "worksheetTitle": {
           "type": "Text",
           "config": {
@@ -59,6 +68,40 @@
             "label": "Worksheet CTA",
             "allowText": true,
             "select": "web"
+          }
+        },
+        "ctacards": {
+          "type": "Group",
+          "config": {
+            "label": "CtaCards",
+            "repeat": true,
+            "fields": {
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": "CTA Title"
+                }
+              },
+              "cta_description": {
+                "type": "Text",
+                "config": {
+                  "label": "CTA Description",
+                  "placeholder": "CTA Description"
+                }
+              },
+              "cta_link": {
+                "type": "Link",
+                "config": {
+                  "label": "CTA Link",
+                  "placeholder": "CTA Link",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
+                }
+              }
+            }
           }
         }
       },

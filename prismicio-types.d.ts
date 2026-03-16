@@ -589,6 +589,47 @@ export type StrategySectionSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Item in *ArticlePage → Default → Primary → CtaCards*
+ */
+export interface UseCaseDetailSliceDefaultPrimaryCtacardsItem {
+  /**
+   * Title field in *ArticlePage → Default → Primary → CtaCards*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: CTA Title
+   * - **API ID Path**: use_case_detail.default.primary.ctacards[].title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * CTA Description field in *ArticlePage → Default → Primary → CtaCards*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: CTA Description
+   * - **API ID Path**: use_case_detail.default.primary.ctacards[].cta_description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  cta_description: prismic.KeyTextField;
+
+  /**
+   * CTA Link field in *ArticlePage → Default → Primary → CtaCards*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: CTA Link
+   * - **API ID Path**: use_case_detail.default.primary.ctacards[].cta_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  cta_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
  * Primary content in *ArticlePage → Default → Primary*
  */
 export interface UseCaseDetailSliceDefaultPrimary {
@@ -645,6 +686,16 @@ export interface UseCaseDetailSliceDefaultPrimary {
   >;
 
   /**
+   * CalloutBlock field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: use_case_detail.default.primary.calloutBlock
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  calloutBlock: prismic.RichTextField;
+
+  /**
    * Worksheet Title field in *ArticlePage → Default → Primary*
    *
    * - **Field Type**: Text
@@ -668,6 +719,18 @@ export interface UseCaseDetailSliceDefaultPrimary {
     unknown,
     prismic.FieldState,
     never
+  >;
+
+  /**
+   * CtaCards field in *ArticlePage → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: use_case_detail.default.primary.ctacards[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  ctacards: prismic.GroupField<
+    Simplify<UseCaseDetailSliceDefaultPrimaryCtacardsItem>
   >;
 }
 
@@ -798,6 +861,7 @@ declare module "@prismicio/client" {
       StrategySectionSliceVariation,
       StrategySectionSliceDefault,
       UseCaseDetailSlice,
+      UseCaseDetailSliceDefaultPrimaryCtacardsItem,
       UseCaseDetailSliceDefaultPrimary,
       UseCaseDetailSliceVariation,
       UseCaseDetailSliceDefault,
