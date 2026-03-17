@@ -8,6 +8,8 @@ import CTAButton from "@/components/ui/CTAButton";
 import DocumentLinkList from "@/components/shared/DocumentLinkList";
 import ChapterNavLink from "@/components/shared/ChapterNavLink";
 import ArticleTOC from "@/components/shared/ArticleTOC";
+import FollowSeries from "@/components/shared/FollowSeries";
+import Footer from "@/components/shared/Footer";
 
 function slugify(text: string): string {
   return text
@@ -114,7 +116,7 @@ const UseCaseDetail: FC<UseCaseDetailProps> = ({ slice, context }) => {
                 field={slice.primary.content}
                 components={{
                   heading2: ({ children, node }) => (
-                    <h2 id={slugify(node.text)}>{children}</h2>
+                    <h2 id={slugify(node.text)} className="scroll-mt-28">{children}</h2>
                   ),
                 }}
               />
@@ -184,21 +186,34 @@ const UseCaseDetail: FC<UseCaseDetailProps> = ({ slice, context }) => {
           </div>
 
           {/* TOC Sidebar — sticky, scrolls with content then sticks to top */}
-          {h2Headings.length > 0 && (
+          
             <div className="hidden lg:block w-[320px] shrink-0">
-              <div className="sticky top-24">
-                <ArticleTOC
-                  headings={h2Headings}
-                  chapterLabel={chapterStr ? `Chapter ${chapterStr}` : undefined}
-                  totalSections={h2Headings.length}
-                />
+              <div className="sticky top-24 flex flex-col gap-4">
+                {h2Headings.length > 0 && (
+                  <ArticleTOC
+                    headings={h2Headings}
+                    chapterLabel={chapterStr ? `Chapter ${chapterStr}` : undefined}
+                    totalSections={h2Headings.length}
+                  />
+                )}
+
+                {slice.primary.worksheetTitle && slice.primary.worksheetCta?.text && (
+                  <div className="rounded-[3px] bg-surface border border-border p-5 flex flex-col gap-4">
+                    <h3 className="font-mono text-xs text-muted uppercase tracking-[1.5px]">
+                      {slice.primary.worksheetTitle}
+                    </h3>
+                    <DocumentLinkList links={[slice.primary.worksheetCta]} />
+                  </div>
+                )}
+
+                <FollowSeries />
               </div>
             </div>
-          )}
-
           </div>
         </div>
       </div>
+      {/* Footer CTA */}
+      <Footer />
     </section>
   );
 };

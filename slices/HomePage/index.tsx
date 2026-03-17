@@ -4,6 +4,7 @@ import { SliceComponentProps, PrismicRichText } from "@prismicio/react";
 import { PrismicNextLink } from "@prismicio/next";
 import Image from "next/image";
 import { AngleRight, CircleInButton } from "@/components/icons";
+import Footer from "@/components/shared/Footer";
 import CTAButton from "@/components/ui/CTAButton";
 import DocumentLinkList from "@/components/shared/DocumentLinkList";
 import StrategySection from "@/slices/StrategySection";
@@ -242,23 +243,7 @@ const GuideRoadmap: FC<GuideRoadmapProps> = ({ slice, context }) => {
       </section>
 
       {/* Footer CTA */}
-      <footer className="mx-auto px-20 pt-8 pb-14 border-t border-border">
-        <div className="flex flex-col items-center gap-8">
-          <p className="font-mono text-sm text-muted text-center">
-            32 chapters. 9 parts. New content every two weeks.
-          </p>
-          <div className="flex items-center gap-3">
-            <input
-              type="email"
-              placeholder="you@company.com"
-              className="h-[45px] w-56 px-4 bg-transparent border border-[#3f3f46] rounded-lg text-sm text-white placeholder:text-[#52525b] font-mono focus:outline-none focus:border-accent"
-            />
-            <CTAButton as="button" variant="primary" icon={<CircleInButton color="#09090B" />}>
-              Follow the series
-            </CTAButton>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

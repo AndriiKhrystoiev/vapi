@@ -19,10 +19,12 @@ export default function ArticleTOC({
     headings[0]?.id ?? null,
   );
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const isClickScrolling = useRef(false);
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
       (entries) => {
+        if (isClickScrolling.current) return;
         for (const entry of entries) {
           if (entry.isIntersecting) {
             setActiveId(entry.target.id);
@@ -83,8 +85,16 @@ export default function ArticleTOC({
             <button
               key={heading.id}
               onClick={() => {
+                setActiveId(heading.id);
+                isClickScrolling.current = true;
                 const el = document.getElementById(heading.id);
-                if (el) el.scrollIntoView({ behavior: "smooth" });
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                  // Re-enable observer after scroll finishes
+                  setTimeout(() => {
+                    isClickScrolling.current = false;
+                  }, 800);
+                }
               }}
               className={`text-left text-sm leading-6 transition-colors ${
                 isActive ? "text-cream font-medium" : "text-muted hover:text-cream"
