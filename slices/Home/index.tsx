@@ -235,7 +235,13 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
       )}
 
       {/* Footer */}
-      <Footer />
+      <Footer
+        partCount={articles.length}
+        chapterCount={articles.reduce((sum, article) => {
+          const s = article.data.slices[0] as Content.StrategyAccordionSlice | undefined;
+          return sum + (s?.primary.chapter?.length ?? 0);
+        }, 0)}
+      />
     </div>
   );
 };

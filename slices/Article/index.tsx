@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState, useCallback, useMemo, ReactNode } from "react";
+import { FC, useState, useCallback, useMemo, useEffect, useRef, ReactNode } from "react";
 import { Content } from "@prismicio/client";
 import { SliceComponentProps, PrismicRichText, PrismicTable } from "@prismicio/react";
 import Link from "next/link";
@@ -52,9 +52,10 @@ interface TOCSidebarProps {
   articles: Content.ArticlepageDocument[];
   currentUid?: string;
   currentSlice: Content.StrategyAccordionSlice;
+  activeChapterIndex: number;
 }
 
-function TOCSidebar({ articles, currentUid, currentSlice }: TOCSidebarProps) {
+function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex }: TOCSidebarProps) {
   const sorted = useMemo(
     () =>
       [...articles].sort((a, b) => {
@@ -129,17 +130,11 @@ function TOCSidebar({ articles, currentUid, currentSlice }: TOCSidebarProps) {
 
           return (
             <div key={uid} className="border-t border-cream/12">
-              {/* Collapsed / Header row */}
+              {/* Header row — always toggles expand/collapse */}
               <button
                 type="button"
                 className="flex items-center w-full py-5 text-left group cursor-pointer"
-                onClick={() => {
-                  if (isCurrent) {
-                    handleToggle(uid);
-                  } else {
-                    /* navigate handled by Link below */
-                  }
-                }}
+                onClick={() => handleToggle(uid)}
               >
                 <span
                   className="text-sm tracking-[-0.28px] leading-4 font-medium w-[64px] shrink-0"
@@ -148,13 +143,7 @@ function TOCSidebar({ articles, currentUid, currentSlice }: TOCSidebarProps) {
                   Part {partNumber}
                 </span>
                 <span className="text-sm tracking-[-0.28px] leading-4 font-medium text-cream flex-1">
-                  {isCurrent ? (
-                    partName
-                  ) : (
-                    <Link href={`/${uid}`} className="hover:opacity-80">
-                      {partName}
-                    </Link>
-                  )}
+                  {partName}
                 </span>
                 <span className="ml-auto shrink-0">
                   {isExpanded ? (
@@ -166,42 +155,71 @@ function TOCSidebar({ articles, currentUid, currentSlice }: TOCSidebarProps) {
               </button>
 
               {/* Expanded chapters */}
-              {isExpanded && isCurrent && (
+              {isExpanded && (
                 <div className="flex flex-col gap-2 pb-4">
-                  {chapters.map((chapter, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className="flex items-center gap-2 w-full text-left cursor-pointer group"
-                      onClick={() =>
-                        chapter.chapter_title &&
-                        scrollToChapter(chapter.chapter_title)
-                      }
-                    >
-                      <span className="w-4 h-4 shrink-0 flex items-center justify-center">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="8"
-                            cy="8"
-                            r="6"
-                            stroke={partColor}
-                            strokeWidth="1.2"
-                            fill="none"
-                            opacity="0.6"
-                          />
-                        </svg>
-                      </span>
-                      <span className="text-base leading-6 text-[#d8d7d4] group-hover:text-cream transition-colors">
-                        {chapter.chapter_title}
-                      </span>
-                    </button>
-                  ))}
+                  {chapters.map((chapter, idx) => {
+                    // For current article: track read/active/unread state
+                    const isRead = isCurrent && idx < activeChapterIndex;
+                    const isActive = isCurrent && idx === activeChapterIndex;
+                    // Text color
+                    const textColor = isRead
+                      ? "text-accent"
+                      : isActive
+                        ? "text-cream font-semibold"
+                        : "text-muted";
+
+                    // Circle icon
+                    const circleIcon = isRead ? (
+                      // Green checkmark
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="6" stroke="#62f6b5" strokeWidth="1.2" />
+                        <path d="M5.5 8L7 9.5L10.5 6.5" stroke="#62f6b5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    ) : isActive ? (
+                      // Yellow circle
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="6" stroke="#f5c842" strokeWidth="1.2" />
+                      </svg>
+                    ) : (
+                      // Gray circle
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="6" stroke="#52525b" strokeWidth="1.2" />
+                      </svg>
+                    );
+
+                    const content = (
+                      <>
+                        <span className="w-4 h-4 shrink-0 flex items-center justify-center">
+                          {circleIcon}
+                        </span>
+                        <span className={`text-base leading-6 transition-colors ${textColor} group-hover:text-cream`}>
+                          {chapter.chapter_title}
+                        </span>
+                      </>
+                    );
+
+                    // Current article: scroll to chapter. Other articles: navigate to article page.
+                    return isCurrent ? (
+                      <button
+                        key={idx}
+                        type="button"
+                        className="flex items-center gap-2 w-full text-left cursor-pointer group"
+                        onClick={() =>
+                          chapter.chapter_title && scrollToChapter(chapter.chapter_title)
+                        }
+                      >
+                        {content}
+                      </button>
+                    ) : (
+                      <Link
+                        key={idx}
+                        href={`/${uid}`}
+                        className="flex items-center gap-2 w-full text-left group"
+                      >
+                        {content}
+                      </Link>
+                    );
+                  })}
 
                   {/* Reading time */}
                   <p className="font-mono text-xs text-cream/60 font-medium uppercase tracking-[0.96px] leading-5 mt-2">
@@ -209,9 +227,6 @@ function TOCSidebar({ articles, currentUid, currentSlice }: TOCSidebarProps) {
                   </p>
                 </div>
               )}
-
-              {/* Collapsed but not current: show as link */}
-              {!isCurrent && !isExpanded && null}
             </div>
           );
         })}
@@ -484,7 +499,36 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
   const partNumber = slice.primary.part_number;
   const partName = slice.primary.part_name;
   const partColor = slice.primary.part_color ?? "#62f6b5";
-  const chapters = slice.primary.chapter ?? [];
+  const chapters = useMemo(() => slice.primary.chapter ?? [], [slice.primary.chapter]);
+
+  // Track active chapter via IntersectionObserver
+  const [activeChapterIndex, setActiveChapterIndex] = useState(0);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const ids = chapters
+      .map((ch) => (ch.chapter_title ? slugify(ch.chapter_title) : null))
+      .filter(Boolean) as string[];
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const idx = ids.indexOf(entry.target.id);
+            if (idx >= 0) setActiveChapterIndex(idx);
+          }
+        }
+      },
+      { rootMargin: "-80px 0px -60% 0px" },
+    );
+
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) observerRef.current.observe(el);
+    }
+
+    return () => observerRef.current?.disconnect();
+  }, [chapters]);
 
   return (
     <div
@@ -503,6 +547,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
               articles={articles}
               currentUid={currentUid}
               currentSlice={slice}
+              activeChapterIndex={activeChapterIndex}
             />
           </aside>
 
@@ -560,7 +605,13 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
         </div>
       </div>
       {/* Footer */}
-      <Footer />
+      <Footer
+        partCount={articles.length}
+        chapterCount={articles.reduce((sum, article) => {
+          const s = getArticleSlice(article);
+          return sum + (s?.primary.chapter?.length ?? 0);
+        }, 0)}
+      />
     </div>
   );
 };
