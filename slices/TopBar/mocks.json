@@ -11,6 +11,21 @@
 					"url": "http://google.com",
 					"text": "frozen"
 				}
+			},
+			"header_link": {
+				"__TYPE__": "RepeatableContent",
+				"type": "Link",
+				"value": [
+					{
+						"key": "313f257d-3706-45b2-af63-bd95e0eebefd",
+						"__TYPE__": "LinkContent",
+						"value": {
+							"__TYPE__": "ExternalLink",
+							"url": "https://prismic.io",
+							"text": "square"
+						}
+					}
+				]
 			}
 		},
 		"items": []

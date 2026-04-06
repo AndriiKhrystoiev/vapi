@@ -1,0 +1,79 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"part_number": {
+				"__TYPE__": "FieldContent",
+				"value": "96",
+				"type": "Number"
+			},
+			"part_name": {
+				"__TYPE__": "FieldContent",
+				"value": "noise",
+				"type": "Text"
+			},
+			"part_color": {
+				"__TYPE__": "FieldContent",
+				"value": "#6ef5d6",
+				"type": "Color"
+			},
+			"you_will_learn_items": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"learn_item",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "test",
+									"type": "Text"
+								}
+							]
+						]
+					}
+				]
+			},
+			"summary_description": {
+				"__TYPE__": "FieldContent",
+				"value": "come",
+				"type": "Text"
+			},
+			"chapter": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"chapter_title",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "angry",
+									"type": "Text"
+								}
+							],
+							[
+								"chapter_content",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Veniam veniam aute amet pariatur consectetur incididunt velit ut qui. Anim non nisi reprehenderit voluptate id qui anim."
+											}
+										}
+									]
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

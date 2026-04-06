@@ -3,8 +3,9 @@
 import dynamic from "next/dynamic";
 
 export const components = {
-  guide_roadmap: dynamic(() => import("./HomePage")),
-  strategy_section: dynamic(() => import("./StrategySection")),
-  use_case_detail: dynamic(() => import("./ArticlePage")),
+  guide_playbook_hero: dynamic(() => import("./Home")),
+  rich_text: dynamic(() => import("./RichText")),
+  strategy_accordion: dynamic(() => import("./Article")),
+  table: dynamic(() => import("./Table")),
   voice_agent_playbook: dynamic(() => import("./TopBar")),
 };

@@ -1,0 +1,102 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"table_description": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Lorem non eiusmod commodo voluptate aliquip minim minim velit. Cillum cupidatat sit occaecat tempor amet duis reprehenderit velit dolore velit non labore incididunt Lorem. Minim veniam mollit non irure duis in veniam non exercitation eu dolore."
+						}
+					}
+				]
+			},
+			"table_data": {
+				"__TYPE__": "TableContent",
+				"content": [
+					{
+						"key": "3564418d-64a0-4ec6-b381-2166f5780554",
+						"type": "tableRow",
+						"content": [
+							{
+								"key": "5a6c132f-5686-4bc2-a0db-989d0c5ff03f",
+								"type": "tableHeader",
+								"content": {
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Et."
+											}
+										}
+									]
+								}
+							},
+							{
+								"key": "cd866da8-a555-4db8-96f6-0eda4d8477d4",
+								"type": "tableHeader",
+								"content": {
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Magna ad."
+											}
+										}
+									]
+								}
+							}
+						]
+					},
+					{
+						"key": "75489adf-c289-4f68-a555-f03fd669fa6f",
+						"type": "tableRow",
+						"content": [
+							{
+								"key": "118bb13c-26d0-47ff-bef7-954abb5c8c34",
+								"type": "tableCell",
+								"content": {
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Ut esse non velit."
+											}
+										}
+									]
+								}
+							},
+							{
+								"key": "b12c0a9a-a004-43fc-b9cc-9e3d12cec26b",
+								"type": "tableCell",
+								"content": {
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Occaecat labore Lorem laborum duis minim qui."
+											}
+										}
+									]
+								}
+							}
+						]
+					}
+				]
+			},
+			"table_heading": {
+				"__TYPE__": "FieldContent",
+				"value": "live",
+				"type": "Text"
+			}
+		},
+		"items": []
+	}
+]

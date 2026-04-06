@@ -11,10 +11,7 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "strategy_section": {
-              "type": "SharedSlice"
-            },
-            "guide_roadmap": {
+            "guide_playbook_hero": {
               "type": "SharedSlice"
             }
           }

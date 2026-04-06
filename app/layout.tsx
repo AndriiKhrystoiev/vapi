@@ -26,14 +26,16 @@ export default async function RootLayout({
 }>) {
   const client = createClient();
   const topBar = await client.getSingle("top_bar");
-  const ctaButton = topBar.data.slices[0]?.primary.cta_button;
+  const slice = topBar.data.slices[0]?.primary;
+  const headerLinks = (slice?.header_link ?? []) as unknown as import("@prismicio/client").LinkField[];
+  const ctaButton = slice?.cta_button as import("@prismicio/client").LinkField;
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TopBar ctaButton={ctaButton} />
+        <TopBar headerLinks={headerLinks} ctaButton={ctaButton} />
         <div className="pt-15">
           {children}
         </div>

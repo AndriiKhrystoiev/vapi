@@ -1,0 +1,88 @@
+{
+  "id": "strategy_accordion",
+  "type": "SharedSlice",
+  "name": "Article",
+  "description": "Accordion component displaying expandable strategy sections with titles, descriptions, and badges",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default accordion variation",
+      "imageUrl": "",
+      "primary": {
+        "part_number": {
+          "type": "Number",
+          "config": {
+            "label": "Part Number",
+            "placeholder": "Paste part number"
+          }
+        },
+        "part_name": {
+          "type": "Text",
+          "config": {
+            "label": "Part name",
+            "placeholder": "Paste part name"
+          }
+        },
+        "part_color": {
+          "type": "Color",
+          "config": {
+            "label": "Part color",
+            "placeholder": "Select part theme color"
+          }
+        },
+        "you_will_learn_items": {
+          "type": "Group",
+          "config": {
+            "label": "You will learn items",
+            "repeat": true,
+            "fields": {
+              "learn_item": {
+                "type": "Text",
+                "config": {
+                  "label": "Learn item",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        },
+        "summary_description": {
+          "type": "Text",
+          "config": {
+            "label": "Summary description",
+            "placeholder": ""
+          }
+        },
+        "chapter": {
+          "type": "Group",
+          "config": {
+            "label": "Chapter",
+            "repeat": true,
+            "fields": {
+              "chapter_title": {
+                "type": "Text",
+                "config": {
+                  "label": "Chapter title",
+                  "placeholder": ""
+                }
+              },
+              "chapter_content": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Chapter content",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,preformatted,heading3,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

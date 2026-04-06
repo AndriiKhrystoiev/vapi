@@ -12,6 +12,17 @@
       "description": "Default variation with heading and CTA button",
       "imageUrl": "",
       "primary": {
+        "header_link": {
+          "type": "Link",
+          "config": {
+            "label": "Header link",
+            "placeholder": "",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": true
+          }
+        },
         "cta_button": {
           "type": "Link",
           "config": {

@@ -1,0 +1,116 @@
+{
+  "id": "guide_playbook_hero",
+  "type": "SharedSlice",
+  "name": "Home",
+  "description": "Hero section for a comprehensive guide/playbook with table of contents, learning outcomes, and audience information",
+  "variations": [
+    {
+      "id": "default",
+      "name": "HomePage",
+      "docURL": "",
+      "version": "initial",
+      "description": "Default variation",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading1",
+            "placeholder": "Enter main heading"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "single": "paragraph",
+            "placeholder": "Enter description"
+          }
+        },
+        "cta_button": {
+          "type": "Link",
+          "config": {
+            "label": "CTA Button",
+            "allowText": true,
+            "select": null
+          }
+        },
+        "table_of_contents_heading": {
+          "type": "Text",
+          "config": {
+            "label": "Table of Contents Heading",
+            "placeholder": "e.g., Table of Contents"
+          }
+        },
+        "learning_section_heading": {
+          "type": "Text",
+          "config": {
+            "label": "Learning Section Heading",
+            "placeholder": "e.g., What you'll learn"
+          }
+        },
+        "learning_outcomes": {
+          "type": "Group",
+          "config": {
+            "label": "Learning Outcomes",
+            "fields": {
+              "outcome_text": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Outcome Text",
+                  "single": "paragraph"
+                }
+              },
+              "outcome_image": {
+                "type": "Image",
+                "config": {
+                  "label": "Outcome Image",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              }
+            }
+          }
+        },
+        "audience_section_heading": {
+          "type": "Text",
+          "config": {
+            "label": "Audience Section Heading",
+            "placeholder": "e.g., Who this playbook is for"
+          }
+        },
+        "audience_cards": {
+          "type": "Group",
+          "config": {
+            "label": "Audience Cards",
+            "fields": {
+              "audience_label": {
+                "type": "Text",
+                "config": {
+                  "label": "Audience Label",
+                  "placeholder": "e.g., P01"
+                }
+              },
+              "audience_title": {
+                "type": "Text",
+                "config": {
+                  "label": "Audience Title",
+                  "placeholder": "e.g., Product teams"
+                }
+              },
+              "audience_description": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Audience Description",
+                  "single": "paragraph"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

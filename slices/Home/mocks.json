@@ -1,0 +1,144 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Determine"
+						}
+					}
+				]
+			},
+			"description": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Occaecat eiusmod deserunt tempor officia anim. Tempor minim culpa anim fugiat reprehenderit sit nulla pariatur ullamco esse do."
+						}
+					}
+				]
+			},
+			"cta_button": {
+				"key": "77a3f019-ecc0-474a-88e3-e56a077541e9",
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "http://twitter.com",
+					"text": "gravity"
+				}
+			},
+			"table_of_contents_heading": {
+				"__TYPE__": "FieldContent",
+				"value": "may",
+				"type": "Text"
+			},
+			"learning_section_heading": {
+				"__TYPE__": "FieldContent",
+				"value": "who",
+				"type": "Text"
+			},
+			"learning_outcomes": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"outcome_text",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Veniam labore ad in fugiat tempor irure id. Velit nulla tempor sint proident adipisicing ut sunt nostrud deserunt anim. Aliqua aute minim deserunt."
+											}
+										}
+									]
+								}
+							],
+							[
+								"outcome_image",
+								{
+									"__TYPE__": "ImageContent",
+									"origin": {
+										"id": "main",
+										"url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f",
+										"width": 6597,
+										"height": 4398
+									},
+									"url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f",
+									"width": 6597,
+									"height": 4398,
+									"edit": {
+										"zoom": 1,
+										"crop": {
+											"x": 0,
+											"y": 0
+										},
+										"background": "transparent"
+									},
+									"alt": "became",
+									"thumbnails": {}
+								}
+							]
+						]
+					}
+				]
+			},
+			"audience_section_heading": {
+				"__TYPE__": "FieldContent",
+				"value": "car",
+				"type": "Text"
+			},
+			"audience_cards": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"audience_label",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "win",
+									"type": "Text"
+								}
+							],
+							[
+								"audience_title",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "large",
+									"type": "Text"
+								}
+							],
+							[
+								"audience_description",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Ex laboris in reprehenderit laborum consectetur laboris."
+											}
+										}
+									]
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

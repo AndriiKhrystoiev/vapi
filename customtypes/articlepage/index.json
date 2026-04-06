@@ -1,6 +1,6 @@
 {
   "format": "page",
-  "id": "article_page",
+  "id": "articlepage",
   "label": "Article Page",
   "repeatable": true,
   "status": true,
@@ -17,7 +17,13 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "use_case_detail": {
+            "rich_text": {
+              "type": "SharedSlice"
+            },
+            "table": {
+              "type": "SharedSlice"
+            },
+            "strategy_accordion": {
               "type": "SharedSlice"
             }
           }

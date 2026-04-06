@@ -19,7 +19,7 @@ const variantClasses: Record<Variant, string> = {
 };
 
 const sizeClasses: Record<Size, string> = {
-  default: "h-[45px] px-4 py-2.5 text-xs",
+  default: "h-[56px] px-4 py-2.5 text-sm",
   small: "h-[38px] px-5 text-[10px]",
 };
 
