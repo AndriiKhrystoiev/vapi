@@ -719,9 +719,45 @@ export type VoiceAgentPlaybookSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *TopBar → Article page → Primary*
+ */
+export interface VoiceAgentPlaybookSliceArticlePagePrimary {
+  /**
+   * CTA Button field in *TopBar → Article page → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: voice_agent_playbook.articlePage.primary.cta_button
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  cta_button: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
+ * Article page variation for TopBar Slice
+ *
+ * - **API ID**: `articlePage`
+ * - **Description**: Default variation with heading and CTA button
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type VoiceAgentPlaybookSliceArticlePage = prismic.SharedSliceVariation<
+  "articlePage",
+  Simplify<VoiceAgentPlaybookSliceArticlePagePrimary>,
+  never
+>;
+
+/**
  * Slice variation for *TopBar*
  */
-type VoiceAgentPlaybookSliceVariation = VoiceAgentPlaybookSliceDefault;
+type VoiceAgentPlaybookSliceVariation =
+  | VoiceAgentPlaybookSliceDefault
+  | VoiceAgentPlaybookSliceArticlePage;
 
 /**
  * TopBar Shared Slice
@@ -788,8 +824,10 @@ declare module "@prismicio/client" {
       TableSliceDefault,
       VoiceAgentPlaybookSlice,
       VoiceAgentPlaybookSliceDefaultPrimary,
+      VoiceAgentPlaybookSliceArticlePagePrimary,
       VoiceAgentPlaybookSliceVariation,
       VoiceAgentPlaybookSliceDefault,
+      VoiceAgentPlaybookSliceArticlePage,
     };
   }
 }

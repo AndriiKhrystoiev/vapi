@@ -5,7 +5,9 @@ import { Content } from "@prismicio/client";
 import { SliceComponentProps, PrismicRichText, PrismicTable } from "@prismicio/react";
 import Link from "next/link";
 import Image from "next/image";
+import Footer from "@/components/shared/Footer";
 import CTAButton from "@/components/ui/CTAButton";
+import { ArticleTopBar } from "@/components/TopBar";
 import { AngleDown, AngleRight } from "@/components/icons";
 import { pluralize } from "@/helpers/pluralize";
 
@@ -19,6 +21,7 @@ type ArticleContext = {
   articles?: Content.ArticlepageDocument[];
   currentUid?: string;
   allSlices?: SiblingSlice[];
+  ctaButton?: Content.VoiceAgentPlaybookSliceArticlePagePrimary["cta_button"];
 };
 
 export type StrategyAccordionProps = SliceComponentProps<
@@ -242,10 +245,10 @@ function RightSidebar({ slice }: RightSidebarProps) {
   }, [chapters]);
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-6 w-full items-start">
       {/* You will learn */}
       {learnItems.length > 0 && (
-        <div className="flex justify-between items-center gap-3 mt-6">
+        <div className="flex justify-between items-center gap-3 mt-6 w-full">
           <p className="text-base leading-6 text-white/60">You will learn</p>
           <div className="flex flex-wrap gap-x-8 gap-y-2">
             {learnItems.map((item, idx) => (
@@ -280,7 +283,7 @@ function RightSidebar({ slice }: RightSidebarProps) {
       <div className="w-full h-px bg-cream/12" />
 
       {/* Summary + meta */}
-      <div className="flex items-start justify-between gap-6">
+      <div className="flex items-start justify-between gap-6 w-full">
         <p className="text-2xl leading-8 tracking-[-0.48px] text-cream max-w-[454px]">
           {slice.primary.summary_description}
         </p>
@@ -477,17 +480,20 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
   const articles = context?.articles ?? [];
   const currentUid = context?.currentUid;
   const allSlices = context?.allSlices ?? [];
+  const ctaButton = context?.ctaButton;
   const partNumber = slice.primary.part_number;
   const partName = slice.primary.part_name;
   const partColor = slice.primary.part_color ?? "#62f6b5";
   const chapters = slice.primary.chapter ?? [];
 
   return (
-    <section
+    <div
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
       className="bg-[#0e0e12] min-h-screen"
     >
+      {/* Article-specific top bar overlaying the global one */}
+      <ArticleTopBar partName={partName} ctaButton={ctaButton} />
       {/* Three-column layout */}
       <div className="mx-auto max-w-[1440px] px-[120px] mt-2">
         <div className="flex gap-6">
@@ -553,7 +559,9 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
           </main>
         </div>
       </div>
-    </section>
+      {/* Footer */}
+      <Footer />
+    </div>
   );
 };
 

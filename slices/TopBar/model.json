@@ -33,6 +33,25 @@
         }
       },
       "items": {}
+    },
+    {
+      "id": "articlePage",
+      "name": "Article page",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default variation with heading and CTA button",
+      "imageUrl": "",
+      "primary": {
+        "cta_button": {
+          "type": "Link",
+          "config": {
+            "label": "CTA Button",
+            "allowText": true,
+            "select": null
+          }
+        }
+      },
+      "items": {}
     }
   ]
 }

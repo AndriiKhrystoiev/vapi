@@ -224,7 +224,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                       {card.audience_title}
                     </h3>
                   )}
-                  <div className="[&_p]:text-[16px] [&_p]:leading-[24px] [&_p]:text-[#d8d7d4] [&_p]:opacity-60">
+                  <div className="[&_p]:text-[16px] [&_p]:leading-[24px] [&_p]:text-[#d8d7d4] [&_p]:opacity-60 w-[90%]">
                     <PrismicRichText field={card.audience_description} />
                   </div>
                 </div>
