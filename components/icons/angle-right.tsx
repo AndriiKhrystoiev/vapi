@@ -1,4 +1,5 @@
-const AngleRight = (props) => {
+import type { SVGProps } from "react";
+const AngleRight = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#09090B", width = 8, height = 14 } = props;
 
   return (

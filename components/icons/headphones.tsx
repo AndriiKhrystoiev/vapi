@@ -1,4 +1,5 @@
-const Headphones = (props) => {
+import type { SVGProps } from "react";
+const Headphones = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#0E0E12", width = 14, height = 15 } = props;
 
   return (

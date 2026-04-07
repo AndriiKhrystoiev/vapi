@@ -1,4 +1,5 @@
-const Checkmark = (props) => {
+import type { SVGProps } from "react";
+const Checkmark = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#FFFAEB", width = 14, height = 10 } = props;
 
   return (

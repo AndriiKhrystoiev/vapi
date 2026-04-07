@@ -1,4 +1,5 @@
-const MenuDots = (props) => {
+import type { SVGProps } from "react";
+const MenuDots = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#D8D7D4", width = 12, height = 12 } = props;
 
   return (

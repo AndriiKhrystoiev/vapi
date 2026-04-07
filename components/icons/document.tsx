@@ -1,4 +1,5 @@
-const Document = (props) => {
+import type { SVGProps } from "react";
+const Document = (props: SVGProps<SVGSVGElement>) => {
   const { width = 16, height = 16 } = props;
 
   return (

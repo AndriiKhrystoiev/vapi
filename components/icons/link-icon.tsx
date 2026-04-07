@@ -1,4 +1,5 @@
-const LinkIcon = (props) => {
+import type { SVGProps } from "react";
+const LinkIcon = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#62F6B5", width = 16, height = 13 } = props;
 
   return (

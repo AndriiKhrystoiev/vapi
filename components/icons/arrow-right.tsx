@@ -1,4 +1,5 @@
-const ArrowRight = (props) => {
+import type { SVGProps } from "react";
+const ArrowRight = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#FFFAE9", width = 9, height = 8 } = props;
 
   return (

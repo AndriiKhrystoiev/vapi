@@ -1,4 +1,5 @@
-const AngleDown = (props) => {
+import type { SVGProps } from "react";
+const AngleDown = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#D8D7D4", width = 14, height = 8 } = props;
 
   return (

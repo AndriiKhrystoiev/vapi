@@ -1,4 +1,5 @@
-const CircleInButton = (props) => {
+import type { SVGProps } from "react";
+const CircleInButton = (props: SVGProps<SVGSVGElement>) => {
   const { color = "#D8D7D4", width = 16, height = 16 } = props;
 
   return (
