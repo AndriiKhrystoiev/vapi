@@ -1,0 +1,44 @@
+{
+  "id": "chapter",
+  "type": "SharedSlice",
+  "name": "Chapter",
+  "description": "Chapter",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "chapter": {
+          "type": "Group",
+          "config": {
+            "label": "Chapter",
+            "repeat": true,
+            "fields": {
+              "chapter_title": {
+                "type": "Text",
+                "config": {
+                  "label": "Chapter title",
+                  "placeholder": ""
+                }
+              },
+              "chapter_content": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Chapter content",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,preformatted,heading3,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl,heading4,heading5,heading6"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

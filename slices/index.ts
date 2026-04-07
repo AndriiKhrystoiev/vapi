@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 
 export const components = {
+  chapter: dynamic(() => import("./Chapter")),
   guide_playbook_hero: dynamic(() => import("./Home")),
   rich_text: dynamic(() => import("./RichText")),
   strategy_accordion: dynamic(() => import("./Article")),

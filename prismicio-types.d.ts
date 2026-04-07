@@ -70,6 +70,7 @@ type ContentRelationshipFieldWithData<
 }[Exclude<TCustomType[number], string>["id"]];
 
 type ArticlepageDocumentDataSlicesSlice =
+  | ChapterSlice
   | RichTextSlice
   | TableSlice
   | StrategyAccordionSlice;
@@ -240,6 +241,76 @@ export type AllDocumentTypes =
   | ArticlepageDocument
   | HomePageDocument
   | TopBarDocument;
+
+/**
+ * Item in *Chapter → Default → Primary → Chapter*
+ */
+export interface ChapterSliceDefaultPrimaryChapterItem {
+  /**
+   * Chapter title field in *Chapter → Default → Primary → Chapter*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: chapter.default.primary.chapter[].chapter_title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  chapter_title: prismic.KeyTextField;
+
+  /**
+   * Chapter content field in *Chapter → Default → Primary → Chapter*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: chapter.default.primary.chapter[].chapter_content
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  chapter_content: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Chapter → Default → Primary*
+ */
+export interface ChapterSliceDefaultPrimary {
+  /**
+   * Chapter field in *Chapter → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: chapter.default.primary.chapter[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  chapter: prismic.GroupField<Simplify<ChapterSliceDefaultPrimaryChapterItem>>;
+}
+
+/**
+ * Default variation for Chapter Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ChapterSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ChapterSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Chapter*
+ */
+type ChapterSliceVariation = ChapterSliceDefault;
+
+/**
+ * Chapter Shared Slice
+ *
+ * - **API ID**: `chapter`
+ * - **Description**: Chapter
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ChapterSlice = prismic.SharedSlice<
+  "chapter",
+  ChapterSliceVariation
+>;
 
 /**
  * Item in *Home → HomePage → Primary → Learning Outcomes*
@@ -802,6 +873,11 @@ declare module "@prismicio/client" {
       TopBarDocumentData,
       TopBarDocumentDataSlicesSlice,
       AllDocumentTypes,
+      ChapterSlice,
+      ChapterSliceDefaultPrimaryChapterItem,
+      ChapterSliceDefaultPrimary,
+      ChapterSliceVariation,
+      ChapterSliceDefault,
       GuidePlaybookHeroSlice,
       GuidePlaybookHeroSliceDefaultPrimaryLearningOutcomesItem,
       GuidePlaybookHeroSliceDefaultPrimaryAudienceCardsItem,

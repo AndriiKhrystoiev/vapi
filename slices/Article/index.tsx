@@ -22,6 +22,7 @@ interface MobileTOCMenuProps {
   currentUid?: string;
   currentSlice: Content.StrategyAccordionSlice;
   activeChapterIndex: number;
+  allChapterTitles: string[];
   ctaButton?: ArticleContext["ctaButton"];
 }
 
@@ -32,6 +33,7 @@ function MobileTOCMenu({
   currentUid,
   currentSlice,
   activeChapterIndex,
+  allChapterTitles,
   ctaButton,
 }: MobileTOCMenuProps) {
   const sorted = useMemo(
@@ -109,6 +111,7 @@ function MobileTOCMenu({
             const partName = articleSlice.primary.part_name;
             const partColor = articleSlice.primary.part_color ?? "#62f6b5";
             const chapters = articleSlice.primary.chapter ?? [];
+            const displayTitles = isCurrent ? allChapterTitles : chapters.map((ch) => ch.chapter_title ?? "");
 
             return (
               <div key={uid} className="border-t border-cream/12">
@@ -139,7 +142,7 @@ function MobileTOCMenu({
                 {/* Expanded chapters */}
                 {isExpanded && (
                   <div className="flex flex-col gap-2 pb-4">
-                    {chapters.map((chapter, idx) => {
+                    {displayTitles.map((title, idx) => {
                       const isRead = isCurrent && idx < activeChapterIndex;
                       const isActive = isCurrent && idx === activeChapterIndex;
                       const textColor = isRead
@@ -169,7 +172,7 @@ function MobileTOCMenu({
                             {circleIcon}
                           </span>
                           <span className={`text-base leading-6 ${textColor}`}>
-                            {chapter.chapter_title}
+                            {title}
                           </span>
                         </>
                       );
@@ -179,9 +182,7 @@ function MobileTOCMenu({
                           key={idx}
                           type="button"
                           className="flex items-center gap-2 w-full text-left cursor-pointer"
-                          onClick={() =>
-                            chapter.chapter_title && scrollToChapter(chapter.chapter_title)
-                          }
+                          onClick={() => title && scrollToChapter(title)}
                         >
                           {content}
                         </button>
@@ -198,7 +199,7 @@ function MobileTOCMenu({
                     })}
 
                     <p className="font-mono text-xs text-cream/60 font-medium uppercase tracking-[0.96px] leading-5 mt-2">
-                      ~45 min &bull; {pluralize(chapters.length, "chapter")}
+                      ~45 min &bull; {pluralize(displayTitles.length, "chapter")}
                     </p>
                   </div>
                 )}
@@ -226,7 +227,7 @@ function MobileTOCMenu({
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
 
-type SiblingSlice = Content.RichTextSlice | Content.TableSlice | Content.StrategyAccordionSlice;
+type SiblingSlice = Content.RichTextSlice | Content.TableSlice | Content.StrategyAccordionSlice | Content.ChapterSlice;
 
 type ArticleContext = {
   articles?: Content.ArticlepageDocument[];
@@ -264,9 +265,10 @@ interface TOCSidebarProps {
   currentUid?: string;
   currentSlice: Content.StrategyAccordionSlice;
   activeChapterIndex: number;
+  allChapterTitles: string[];
 }
 
-function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex }: TOCSidebarProps) {
+function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, allChapterTitles }: TOCSidebarProps) {
   const sorted = useMemo(
     () =>
       [...articles].sort((a, b) => {
@@ -337,7 +339,9 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex }: 
           const partName = articleSlice.primary.part_name;
           const partColor = articleSlice.primary.part_color ?? "#62f6b5";
           const chapters = articleSlice.primary.chapter ?? [];
-          const chapterCount = chapters.length;
+          // For current article, use allChapterTitles (includes sibling Chapter slices)
+          const displayTitles = isCurrent ? allChapterTitles : chapters.map((ch) => ch.chapter_title ?? "");
+          const chapterCount = displayTitles.length;
 
           return (
             <div key={uid} className="border-t border-cream/12">
@@ -368,7 +372,7 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex }: 
               {/* Expanded chapters */}
               {isExpanded && (
                 <div className="flex flex-col gap-2 pb-4">
-                  {chapters.map((chapter, idx) => {
+                  {displayTitles.map((title, idx) => {
                     // For current article: track read/active/unread state
                     const isRead = isCurrent && idx < activeChapterIndex;
                     const isActive = isCurrent && idx === activeChapterIndex;
@@ -381,18 +385,15 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex }: 
 
                     // Circle icon
                     const circleIcon = isRead ? (
-                      // Green checkmark
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <circle cx="8" cy="8" r="6" stroke="#62f6b5" strokeWidth="1.2" />
                         <path d="M5.5 8L7 9.5L10.5 6.5" stroke="#62f6b5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     ) : isActive ? (
-                      // Yellow circle
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <circle cx="8" cy="8" r="6" stroke="#f5c842" strokeWidth="1.2" />
                       </svg>
                     ) : (
-                      // Gray circle
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <circle cx="8" cy="8" r="6" stroke="#52525b" strokeWidth="1.2" />
                       </svg>
@@ -404,20 +405,17 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex }: 
                           {circleIcon}
                         </span>
                         <span className={`text-base leading-6 transition-colors ${textColor} group-hover:text-cream`}>
-                          {chapter.chapter_title}
+                          {title}
                         </span>
                       </>
                     );
 
-                    // Current article: scroll to chapter. Other articles: navigate to article page.
                     return isCurrent ? (
                       <button
                         key={idx}
                         type="button"
                         className="flex items-center gap-2 w-full text-left cursor-pointer group"
-                        onClick={() =>
-                          chapter.chapter_title && scrollToChapter(chapter.chapter_title)
-                        }
+                        onClick={() => title && scrollToChapter(title)}
                       >
                         {content}
                       </button>
@@ -557,20 +555,18 @@ function ChapterSection({ chapter, index, isLast }: ChapterSectionProps) {
             {chapter.chapter_title}
           </h2>
           {/* Listen + Checkmark — desktop only (mobile version is fixed bar) */}
-          {index === 0 && (
-            <div className="hidden lg:flex items-center gap-2 sm:ml-auto shrink-0">
-              <span className="inline-flex items-center gap-3 bg-cream h-12 px-5 rounded-full">
-                <span className="font-mono text-sm font-medium text-[#0e0e12] uppercase tracking-[1.12px] leading-5">
-                  Listen{" "}
-                  <span className="text-[#0e0e12]/60">4:48</span>
-                </span>
-                <Headphones />
+          <div className="hidden lg:flex items-center gap-2 sm:ml-auto shrink-0">
+            <span className="inline-flex items-center gap-3 bg-cream h-12 px-5 rounded-full">
+              <span className="font-mono text-sm font-medium text-[#0e0e12] uppercase tracking-[1.12px] leading-5">
+                Listen{" "}
+                <span className="text-[#0e0e12]/60">4:48</span>
               </span>
-              <span className="inline-flex items-center justify-center bg-[#0e0e12] border border-cream/12 h-12 w-12 rounded-full">
-                <Checkmark />
-              </span>
-            </div>
-          )}
+              <Headphones />
+            </span>
+            <span className="inline-flex items-center justify-center bg-[#0e0e12] border border-cream/12 h-12 w-12 rounded-full">
+              <Checkmark />
+            </span>
+          </div>
         </div>
       </div>
 
@@ -668,11 +664,43 @@ function InlineTable({ slice }: { slice: Content.TableSlice }) {
   );
 }
 
-function SiblingSlices({ slices }: { slices: SiblingSlice[] }) {
-  // Render all slices that come after the first strategy_accordion slice
-  const siblingSlices = slices.slice(
-    slices.findIndex((s) => s.slice_type === "strategy_accordion") + 1,
+function InlineChapterSlice({ slice, chapterOffset }: { slice: Content.ChapterSlice; chapterOffset: number }) {
+  const chapters = slice.primary.chapter ?? [];
+  return (
+    <>
+      {/* Divider before chapter slice content */}
+      <div className="w-full h-px bg-cream/12 my-10" />
+      {chapters.map((chapter, idx) => (
+        <ChapterSection
+          key={`chapter-slice-${idx}`}
+          chapter={chapter as Content.StrategyAccordionSliceDefaultPrimaryChapterItem}
+          index={chapterOffset + idx}
+          isLast={idx === chapters.length - 1}
+        />
+      ))}
+    </>
   );
+}
+
+function SiblingSlices({ slices, baseChapterCount }: { slices: SiblingSlice[]; baseChapterCount: number }) {
+  // Render all slices that come after the first strategy_accordion slice
+  const siblingSlices = useMemo(
+    () => slices.slice(slices.findIndex((s) => s.slice_type === "strategy_accordion") + 1),
+    [slices],
+  );
+
+  // Pre-compute chapter offsets for each Chapter slice
+  const chapterOffsets = useMemo(() => {
+    const offsets: number[] = [];
+    let offset = baseChapterCount;
+    for (const s of siblingSlices) {
+      offsets.push(offset);
+      if (s.slice_type === "chapter") {
+        offset += ((s as Content.ChapterSlice).primary.chapter?.length ?? 0);
+      }
+    }
+    return offsets;
+  }, [siblingSlices, baseChapterCount]);
 
   if (siblingSlices.length === 0) return null;
 
@@ -684,6 +712,9 @@ function SiblingSlices({ slices }: { slices: SiblingSlice[] }) {
         }
         if (s.slice_type === "table") {
           return <InlineTable key={i} slice={s as Content.TableSlice} />;
+        }
+        if (s.slice_type === "chapter") {
+          return <InlineChapterSlice key={i} slice={s as Content.ChapterSlice} chapterOffset={chapterOffsets[i]} />;
         }
         return null;
       })}
@@ -698,12 +729,34 @@ function SiblingSlices({ slices }: { slices: SiblingSlice[] }) {
 const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
   const articles = context?.articles ?? [];
   const currentUid = context?.currentUid;
-  const allSlices = context?.allSlices ?? [];
+  const allSlices = useMemo(() => context?.allSlices ?? [], [context?.allSlices]);
   const ctaButton = context?.ctaButton;
   const partNumber = slice.primary.part_number;
   const partName = slice.primary.part_name;
   const partColor = slice.primary.part_color ?? "#62f6b5";
   const chapters = useMemo(() => slice.primary.chapter ?? [], [slice.primary.chapter]);
+
+  // Collect all chapter titles (from Article slice + sibling Chapter slices) for TOC & observer
+  const allChapterTitles = useMemo(() => {
+    const titles: string[] = [];
+    // From the main Article slice
+    for (const ch of chapters) {
+      if (ch.chapter_title) titles.push(ch.chapter_title);
+    }
+    // From sibling Chapter slices
+    const siblingStart = allSlices.findIndex((s) => s.slice_type === "strategy_accordion") + 1;
+    for (let i = siblingStart; i < allSlices.length; i++) {
+      const s = allSlices[i];
+      if (s.slice_type === "chapter") {
+        const chapterSlice = s as Content.ChapterSlice;
+        for (const ch of chapterSlice.primary.chapter ?? []) {
+          if (ch.chapter_title) titles.push(ch.chapter_title);
+        }
+      }
+    }
+    return titles;
+  }, [chapters, allSlices]);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Track active chapter via IntersectionObserver
@@ -711,9 +764,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    const ids = chapters
-      .map((ch) => (ch.chapter_title ? slugify(ch.chapter_title) : null))
-      .filter(Boolean) as string[];
+    const ids = allChapterTitles.map((title) => slugify(title));
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
@@ -733,7 +784,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
     }
 
     return () => observerRef.current?.disconnect();
-  }, [chapters]);
+  }, [allChapterTitles]);
 
   return (
     <div
@@ -778,6 +829,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
         currentUid={currentUid}
         currentSlice={slice}
         activeChapterIndex={activeChapterIndex}
+        allChapterTitles={allChapterTitles}
         ctaButton={ctaButton}
       />
 
@@ -791,6 +843,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
               currentUid={currentUid}
               currentSlice={slice}
               activeChapterIndex={activeChapterIndex}
+              allChapterTitles={allChapterTitles}
             />
           </aside>
 
@@ -842,7 +895,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
               </div>
 
               {/* Sibling slices (RichText, Table) rendered inline */}
-              <SiblingSlices slices={allSlices} />
+              <SiblingSlices slices={allSlices} baseChapterCount={chapters.length} />
             </div>
           </main>
         </div>
