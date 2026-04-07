@@ -20,13 +20,13 @@ export default function Footer({
           <br />
           New content every two weeks.
         </p>
-        <div className="flex items-center rounded-full border border-border bg-[#0e0e12] p-1.5 pl-6 w-full max-w-sm lg:max-w-none lg:w-auto">
+        <div className="flex items-center rounded-full border border-border bg-[#0e0e12] p-1 lg:p-1.5 pl-4 lg:pl-6 w-full max-w-xs lg:max-w-none lg:w-auto">
           <input
             type="email"
             placeholder="Email address..."
-            className="bg-transparent text-sm text-cream placeholder:text-muted font-mono focus:outline-none flex-1 lg:flex-none lg:w-56"
+            className="bg-transparent text-xs lg:text-sm text-cream placeholder:text-muted font-mono focus:outline-none flex-1 lg:flex-none lg:w-56 min-w-0"
           />
-          <CTAButton as="button" variant="cream" size="default" className="whitespace-nowrap shrink-0 px-7" icon={<AngleRight color="#09090B" />}>
+          <CTAButton as="button" variant="cream" size="small" className="whitespace-nowrap shrink-0 px-4 lg:px-7 lg:!h-[52px] lg:!text-sm" icon={<AngleRight color="#09090B" />}>
             Subscribe
           </CTAButton>
         </div>
