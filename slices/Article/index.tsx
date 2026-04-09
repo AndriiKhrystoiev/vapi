@@ -59,7 +59,18 @@ function MobileTOCMenu({
     return sum + getAllChapterTitlesForArticle(article).length;
   }, 0);
 
-  const currentChapterCount = currentSlice.primary.chapter?.length ?? 0;
+  // Global 1-based index of the currently-active chapter across all parts.
+  // = (chapters in all earlier parts) + (activeChapterIndex within current part + 1)
+  const globalChapterIndex = useMemo(() => {
+    let count = 0;
+    for (const article of sorted) {
+      if (article.uid === currentUid) {
+        return count + activeChapterIndex + 1;
+      }
+      count += getAllChapterTitlesForArticle(article).length;
+    }
+    return 0;
+  }, [sorted, currentUid, activeChapterIndex]);
 
   const handleToggle = useCallback((uid: string) => {
     setExpandedUid((prev) => (prev === uid ? null : uid));
@@ -88,7 +99,7 @@ function MobileTOCMenu({
         {/* Progress indicator */}
         <div className="flex flex-col gap-2 mb-4">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.96px] leading-5 text-cream">
-            <span>{currentChapterCount}</span>
+            <span>{globalChapterIndex}</span>
             <span className="text-cream/60">
               /{totalChapters} {totalChapters === 1 ? "chapter" : "chapters"}
             </span>
@@ -97,7 +108,7 @@ function MobileTOCMenu({
             <div
               className="bg-accent h-1 rounded-l-sm"
               style={{
-                width: `${(currentChapterCount / Math.max(totalChapters, 1)) * 100}%`,
+                width: `${(globalChapterIndex / Math.max(totalChapters, 1)) * 100}%`,
               }}
             />
             <div className="bg-cream/12 h-1 rounded-r-sm flex-1" />
@@ -312,7 +323,17 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
     return sum + getAllChapterTitlesForArticle(article).length;
   }, 0);
 
-  const currentChapterCount = currentSlice.primary.chapter?.length ?? 0;
+  // Global 1-based index of the currently-active chapter across all parts.
+  const globalChapterIndex = useMemo(() => {
+    let count = 0;
+    for (const article of sorted) {
+      if (article.uid === currentUid) {
+        return count + activeChapterIndex + 1;
+      }
+      count += getAllChapterTitlesForArticle(article).length;
+    }
+    return 0;
+  }, [sorted, currentUid, activeChapterIndex]);
 
   const handleToggle = useCallback(
     (uid: string) => {
@@ -334,7 +355,7 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
       {/* Progress indicator */}
       <div className="flex flex-col gap-2">
         <p className="font-mono text-xs font-medium uppercase tracking-[0.96px] leading-5 text-cream">
-          <span>{currentChapterCount}</span>
+          <span>{globalChapterIndex}</span>
           <span className="text-cream/60">
             /{totalChapters} {totalChapters === 1 ? "chapter" : "chapters"}
           </span>
@@ -343,7 +364,7 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
           <div
             className="bg-accent h-1 rounded-l-sm"
             style={{
-              width: `${(currentChapterCount / Math.max(totalChapters, 1)) * 100}%`,
+              width: `${(globalChapterIndex / Math.max(totalChapters, 1)) * 100}%`,
             }}
           />
           <div className="bg-cream/12 h-1 rounded-r-sm flex-1" />
