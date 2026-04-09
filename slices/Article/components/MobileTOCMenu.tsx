@@ -216,7 +216,8 @@ export default function MobileTOCMenu({
       </div>
 
       {/* Fixed bottom CTA */}
-      {ctaButton && "text" in ctaButton && ctaButton.text && (
+      {/* TODO: Temporary hide functionality */}
+      {/* {ctaButton && "text" in ctaButton && ctaButton.text && (
         <div className="shrink-0 px-4 py-6 border-t border-cream/12">
           <Link href={(ctaButton as { url?: string }).url ?? "#"} onClick={onClose}>
             <CTAButton variant="outline" size="small">
@@ -224,7 +225,7 @@ export default function MobileTOCMenu({
             </CTAButton>
           </Link>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
