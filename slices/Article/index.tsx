@@ -6,10 +6,17 @@ import { SliceComponentProps, PrismicRichText, PrismicTable } from "@prismicio/r
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/shared/Footer";
+import ListenButton from "@/components/shared/ListenButton";
 import CTAButton from "@/components/ui/CTAButton";
 import { ArticleTopBar } from "@/components/TopBar";
-import { AngleDown, AngleRight, Checkmark, Headphones } from "@/components/icons";
+import { AngleDown, AngleRight, Checkmark } from "@/components/icons";
 import { pluralize } from "@/helpers/pluralize";
+import {
+  formatListenMinutes,
+  getArticleListenSeconds,
+  getChapterListenData,
+  getSliceListenSeconds,
+} from "@/helpers/listenTime";
 
 /* ------------------------------------------------------------------ */
 /*  Mobile TOC Menu                                                     */
@@ -110,6 +117,7 @@ function MobileTOCMenu({
             const partName = articleSlice.primary.part_name;
             const partColor = articleSlice.primary.part_color ?? "#62f6b5";
             const displayTitles = isCurrent ? allChapterTitles : getAllChapterTitlesForArticle(article);
+            const readingMinutes = formatListenMinutes(getArticleListenSeconds(article));
 
             return (
               <div key={uid} className="border-t border-cream/12">
@@ -197,7 +205,7 @@ function MobileTOCMenu({
                     })}
 
                     <p className="font-mono text-xs text-cream/60 font-medium uppercase tracking-[0.96px] leading-5 mt-2">
-                      ~45 min &bull; {pluralize(displayTitles.length, "chapter")}
+                      ~{readingMinutes} &bull; {pluralize(displayTitles.length, "chapter")}
                     </p>
                   </div>
                 )}
@@ -357,6 +365,7 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
           // Get all chapter titles from all slices (strategy_accordion + chapter slices)
           const displayTitles = isCurrent ? allChapterTitles : getAllChapterTitlesForArticle(article);
           const chapterCount = displayTitles.length;
+          const readingMinutes = formatListenMinutes(getArticleListenSeconds(article));
 
           return (
             <div key={uid} className="border-t border-cream/12">
@@ -447,7 +456,7 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
 
                   {/* Reading time */}
                   <p className="font-mono text-xs text-cream/60 font-medium uppercase tracking-[0.96px] leading-5 mt-2">
-                    ~45 min &bull; {pluralize(chapterCount, "chapter")}
+                    ~{readingMinutes} &bull; {pluralize(chapterCount, "chapter")}
                   </p>
                 </div>
               )}
@@ -465,12 +474,34 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
 
 interface RightSidebarProps {
   slice: Content.StrategyAccordionSlice;
+  allSlices: SiblingSlice[];
 }
 
-function RightSidebar({ slice }: RightSidebarProps) {
+function RightSidebar({ slice, allSlices }: RightSidebarProps) {
   const learnItems = slice.primary.you_will_learn_items ?? [];
   const chapters = useMemo(() => slice.primary.chapter ?? [], [slice.primary.chapter]);
-  const chapterCount = chapters.length;
+
+  // Total chapter count = main slice chapters + any sibling Chapter slices
+  const chapterCount = useMemo(() => {
+    let count = chapters.length;
+    for (const s of allSlices) {
+      if (s.slice_type === "chapter") {
+        count += (s as Content.ChapterSlice).primary.chapter?.length ?? 0;
+      }
+    }
+    return count;
+  }, [chapters, allSlices]);
+
+  // Total reading time = sum across the main slice + every sibling chapter slice
+  const readingMinutes = useMemo(() => {
+    let seconds = getSliceListenSeconds(slice);
+    for (const s of allSlices) {
+      if (s.slice_type === "chapter") {
+        seconds += getSliceListenSeconds(s as Content.ChapterSlice);
+      }
+    }
+    return formatListenMinutes(seconds);
+  }, [slice, allSlices]);
 
   const scrollToFirstChapter = useCallback(() => {
     const first = chapters[0];
@@ -527,7 +558,7 @@ function RightSidebar({ slice }: RightSidebarProps) {
           {slice.primary.summary_description}
         </p>
         <p className="font-mono text-xs font-medium text-cream uppercase tracking-[0.96px] leading-5 lg:text-right whitespace-nowrap shrink-0">
-          ~45 min &bull; {pluralize(chapterCount, "chapter")}
+          ~{readingMinutes} &bull; {pluralize(chapterCount, "chapter")}
         </p>
       </div>
 
@@ -557,6 +588,10 @@ interface ChapterSectionProps {
 
 function ChapterSection({ chapter, index, isLast }: ChapterSectionProps) {
   const chapterId = chapter.chapter_title ? slugify(chapter.chapter_title) : `chapter-${index}`;
+  const listenData = useMemo(
+    () => getChapterListenData(chapter.chapter_content),
+    [chapter.chapter_content],
+  );
 
   return (
     <div id={chapterId}>
@@ -571,13 +606,11 @@ function ChapterSection({ chapter, index, isLast }: ChapterSectionProps) {
           </h2>
           {/* Listen + Checkmark — desktop only (mobile version is fixed bar) */}
           <div className="hidden lg:flex items-center gap-2 sm:ml-auto shrink-0">
-            <span className="inline-flex items-center gap-3 bg-cream h-12 px-5 rounded-full">
-              <span className="font-mono text-sm font-medium text-[#0e0e12] uppercase tracking-[1.12px] leading-5">
-                Listen{" "}
-                <span className="text-[#0e0e12]/60">4:48</span>
-              </span>
-              <Headphones />
-            </span>
+            <ListenButton
+              text={listenData.text}
+              duration={listenData.formatted}
+              size="md"
+            />
             <span className="inline-flex items-center justify-center bg-[#0e0e12] border border-cream/12 h-12 w-12 rounded-full">
               <Checkmark />
             </span>
@@ -751,12 +784,12 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
   const partColor = slice.primary.part_color ?? "#62f6b5";
   const chapters = useMemo(() => slice.primary.chapter ?? [], [slice.primary.chapter]);
 
-  // Collect all chapter titles (from Article slice + sibling Chapter slices) for TOC & observer
-  const allChapterTitles = useMemo(() => {
-    const titles: string[] = [];
+  // Collect all chapters (from Article slice + sibling Chapter slices) for TOC, observer, and TTS
+  const allChapters = useMemo(() => {
+    const list: Content.StrategyAccordionSliceDefaultPrimaryChapterItem[] = [];
     // From the main Article slice
     for (const ch of chapters) {
-      if (ch.chapter_title) titles.push(ch.chapter_title);
+      if (ch.chapter_title) list.push(ch);
     }
     // From sibling Chapter slices
     const siblingStart = allSlices.findIndex((s) => s.slice_type === "strategy_accordion") + 1;
@@ -765,17 +798,30 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
       if (s.slice_type === "chapter") {
         const chapterSlice = s as Content.ChapterSlice;
         for (const ch of chapterSlice.primary.chapter ?? []) {
-          if (ch.chapter_title) titles.push(ch.chapter_title);
+          if (ch.chapter_title) {
+            list.push(ch as Content.StrategyAccordionSliceDefaultPrimaryChapterItem);
+          }
         }
       }
     }
-    return titles;
+    return list;
   }, [chapters, allSlices]);
+
+  const allChapterTitles = useMemo(
+    () => allChapters.map((ch) => ch.chapter_title ?? ""),
+    [allChapters],
+  );
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Track active chapter via IntersectionObserver
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
+
+  // Listen data for the currently-active chapter (drives the mobile fixed bar)
+  const activeListenData = useMemo(
+    () => getChapterListenData(allChapters[activeChapterIndex]?.chapter_content),
+    [allChapters, activeChapterIndex],
+  );
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -822,13 +868,12 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
             Chapter {activeChapterIndex + 1}
           </p>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-3 bg-cream h-10 px-4 rounded-full">
-              <span className="font-mono text-xs font-medium text-[#0e0e12] uppercase tracking-[1.12px] leading-5">
-                Listen{" "}
-                <span className="text-[#0e0e12]/60">4:48</span>
-              </span>
-              <Headphones />
-            </span>
+            <ListenButton
+              key={`listen-${activeChapterIndex}`}
+              text={activeListenData.text}
+              duration={activeListenData.formatted}
+              size="sm"
+            />
             <span className="inline-flex items-center justify-center bg-[#0e0e12] border border-cream/12 h-10 w-10 rounded-full">
               <Checkmark />
             </span>
@@ -894,7 +939,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
             <div className="mx-0 lg:mx-6">
               {/* Right sidebar info (above content on large screens, inline) */}
               <div className="mb-10">
-                <RightSidebar slice={slice} />
+                <RightSidebar slice={slice} allSlices={allSlices} />
               </div>
 
               {/* Chapters */}

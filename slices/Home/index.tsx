@@ -8,6 +8,7 @@ import { AngleDown, AngleRight } from "@/components/icons";
 import Link from "next/link";
 import Image from "next/image";
 import { pluralize } from "@/helpers/pluralize";
+import { formatListenMinutes, getArticleListenSeconds } from "@/helpers/listenTime";
 
 type HomeContext = {
   articles?: Content.ArticlepageDocument[];
@@ -80,6 +81,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
               if (!articleSlice) return null;
               const { part_number, part_name, part_color, summary_description, chapter } = articleSlice.primary;
               const chapterCount = chapter?.length ?? 0;
+              const readingMinutes = formatListenMinutes(getArticleListenSeconds(article));
               const isLastRow = index >= articles.length - (articles.length % 3 || 3);
               return (
                 <Link
@@ -113,7 +115,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                         {chapterCount > 0 && (
                           <>
                             <span className="text-[rgba(255,250,234,0.6)]">
-                              ~45 min &bull;
+                              ~{readingMinutes} &bull;
                             </span>
                             <span className="text-cream">
                               {" "}{pluralize(chapterCount, "chapter")}
