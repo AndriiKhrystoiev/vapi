@@ -22,7 +22,7 @@ export default function ChapterSection({ chapter, index, isLast }: ChapterSectio
   );
 
   return (
-    <div id={chapterId}>
+    <div id={chapterId} className="scroll-mt-[140px] lg:scroll-mt-24">
       {/* Chapter header */}
       <div className="flex flex-col gap-4 mb-6">
         <p className="font-mono text-xs font-medium text-cream uppercase tracking-[0.96px] leading-5">
