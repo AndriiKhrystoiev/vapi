@@ -10,7 +10,8 @@ export default function Footer() {
         <p className="text-3xl lg:text-6xl leading-[1.15] tracking-[-0.64px] text-cream font-normal text-center max-w-[850px]">
           Stay informed of upcoming Vapi news and content
         </p>
-        <div className="flex items-center rounded-full border border-border bg-[#0e0e12] p-1 lg:p-1.5 pl-4 lg:pl-6 w-full max-w-xs lg:max-w-none lg:w-auto">
+        {/* TODO: Temporary hide functionality */}
+        {/* <div className="flex items-center rounded-full border border-border bg-[#0e0e12] p-1 lg:p-1.5 pl-4 lg:pl-6 w-full max-w-xs lg:max-w-none lg:w-auto">
           <input
             type="email"
             placeholder="Email address..."
@@ -19,7 +20,7 @@ export default function Footer() {
           <CTAButton as="button" variant="cream" size="small" className="whitespace-nowrap shrink-0 px-4 lg:px-7 lg:!h-[52px] lg:!text-sm" icon={<AngleRight color="#09090B" />}>
             Subscribe
           </CTAButton>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

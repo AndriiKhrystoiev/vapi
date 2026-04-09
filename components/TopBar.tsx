@@ -41,11 +41,12 @@ export default function TopBar({ headerLinks, ctaButton }: TopBarProps) {
           <div className="flex-1 lg:hidden" />
 
           {/* CTA Button — desktop only */}
-          <PrismicNextLink field={ctaButton} className="hidden lg:block">
+          {/* TODO: Temporary hide functionality */}
+          {/* <PrismicNextLink field={ctaButton} className="hidden lg:block">
             <CTAButton variant="outline" size="small">
               {ctaButton.text}
             </CTAButton>
-          </PrismicNextLink>
+          </PrismicNextLink> */}
 
           {/* Mobile menu button */}
           <button
@@ -123,13 +124,14 @@ export function ArticleTopBar({ partName, ctaButton, onMenuClick, isMenuOpen }: 
         <div className="flex-1" />
 
         {/* CTA Button — desktop only */}
-        {ctaButton && "text" in ctaButton && ctaButton.text && (
+        {/* TODO: Temporary hide functionality */}
+        {/* {ctaButton && "text" in ctaButton && ctaButton.text && (
           <PrismicNextLink field={ctaButton} className="hidden lg:block">
             <CTAButton variant="outline" size="small">
               {ctaButton.text}
             </CTAButton>
           </PrismicNextLink>
-        )}
+        )} */}
 
         {/* Mobile menu button */}
         {onMenuClick && (
