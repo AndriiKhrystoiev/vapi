@@ -49,8 +49,7 @@ function MobileTOCMenu({
   const [expandedUid, setExpandedUid] = useState<string | null>(currentUid ?? null);
 
   const totalChapters = sorted.reduce((sum, article) => {
-    const s = getArticleSlice(article);
-    return sum + (s?.primary.chapter?.length ?? 0);
+    return sum + getAllChapterTitlesForArticle(article).length;
   }, 0);
 
   const currentChapterCount = currentSlice.primary.chapter?.length ?? 0;
@@ -110,8 +109,7 @@ function MobileTOCMenu({
             const partNumber = articleSlice.primary.part_number;
             const partName = articleSlice.primary.part_name;
             const partColor = articleSlice.primary.part_color ?? "#62f6b5";
-            const chapters = articleSlice.primary.chapter ?? [];
-            const displayTitles = isCurrent ? allChapterTitles : chapters.map((ch) => ch.chapter_title ?? "");
+            const displayTitles = isCurrent ? allChapterTitles : getAllChapterTitlesForArticle(article);
 
             return (
               <div key={uid} className="border-t border-cream/12">
@@ -256,6 +254,25 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+/** Get all chapter titles from an article's slices (strategy_accordion + chapter slices) */
+function getAllChapterTitlesForArticle(article: Content.ArticlepageDocument): string[] {
+  const titles: string[] = [];
+  for (const s of article.data.slices) {
+    if (s.slice_type === "strategy_accordion") {
+      const slice = s as Content.StrategyAccordionSlice;
+      for (const ch of slice.primary.chapter ?? []) {
+        if (ch.chapter_title) titles.push(ch.chapter_title);
+      }
+    } else if (s.slice_type === "chapter") {
+      const slice = s as Content.ChapterSlice;
+      for (const ch of slice.primary.chapter ?? []) {
+        if (ch.chapter_title) titles.push(ch.chapter_title);
+      }
+    }
+  }
+  return titles;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Left Sidebar TOC                                                   */
 /* ------------------------------------------------------------------ */
@@ -284,8 +301,7 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
   );
 
   const totalChapters = sorted.reduce((sum, article) => {
-    const s = getArticleSlice(article);
-    return sum + (s?.primary.chapter?.length ?? 0);
+    return sum + getAllChapterTitlesForArticle(article).length;
   }, 0);
 
   const currentChapterCount = currentSlice.primary.chapter?.length ?? 0;
@@ -338,9 +354,8 @@ function TOCSidebar({ articles, currentUid, currentSlice, activeChapterIndex, al
           const partNumber = articleSlice.primary.part_number;
           const partName = articleSlice.primary.part_name;
           const partColor = articleSlice.primary.part_color ?? "#62f6b5";
-          const chapters = articleSlice.primary.chapter ?? [];
-          // For current article, use allChapterTitles (includes sibling Chapter slices)
-          const displayTitles = isCurrent ? allChapterTitles : chapters.map((ch) => ch.chapter_title ?? "");
+          // Get all chapter titles from all slices (strategy_accordion + chapter slices)
+          const displayTitles = isCurrent ? allChapterTitles : getAllChapterTitlesForArticle(article);
           const chapterCount = displayTitles.length;
 
           return (
