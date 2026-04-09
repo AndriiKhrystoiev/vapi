@@ -982,13 +982,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
         </div>
       </div>
       {/* Footer */}
-      <Footer
-        partCount={articles.length}
-        chapterCount={articles.reduce((sum, article) => {
-          const s = getArticleSlice(article);
-          return sum + (s?.primary.chapter?.length ?? 0);
-        }, 0)}
-      />
+      <Footer />
     </div>
   );
 };
