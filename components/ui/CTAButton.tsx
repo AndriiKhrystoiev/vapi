@@ -35,10 +35,19 @@ export default function CTAButton({
 }: CTAButtonProps) {
   return (
     <Tag
-      className={`inline-flex items-center gap-2.5 rounded-full font-mono font-medium uppercase tracking-[1.5px] ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      className={`group inline-flex items-center gap-2.5 rounded-full font-mono font-medium uppercase tracking-[1.5px] ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
     >
       {children}
-      {icon}
+      {icon && (
+        <span className="relative inline-flex size-4 shrink-0 overflow-hidden">
+          <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:translate-x-full">
+            {icon}
+          </span>
+          <span className="absolute inset-0 flex items-center justify-center -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0">
+            {icon}
+          </span>
+        </span>
+      )}
     </Tag>
   );
 }
