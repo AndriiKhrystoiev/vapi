@@ -7,6 +7,7 @@ import ListenButton from "@/components/shared/ListenButton";
 import { Checkmark } from "@/components/icons";
 import { slugify } from "@/helpers/slugify";
 import { getChapterListenData } from "@/helpers/listenTime";
+import { articleProseClasses } from "@/lib/proseClasses";
 
 interface ChapterSectionProps {
   chapter: Content.StrategyAccordionSliceDefaultPrimaryChapterItem;
@@ -39,7 +40,7 @@ export default function ChapterSection({ chapter, index, isLast }: ChapterSectio
               duration={listenData.formatted}
               size="md"
             />
-            <span className="inline-flex items-center justify-center bg-[#0e0e12] border border-cream/12 h-12 w-12 rounded-full">
+            <span className="inline-flex items-center justify-center bg-background border border-cream/12 h-12 w-12 rounded-full">
               <Checkmark />
             </span>
           </div>
@@ -47,18 +48,7 @@ export default function ChapterSection({ chapter, index, isLast }: ChapterSectio
       </div>
 
       {/* Chapter rich text content */}
-      <div
-        className={[
-          "[&_p]:text-base [&_p]:leading-[27.2px] [&_p]:text-[#d8d7d4] [&_p]:mb-6",
-          "[&_h3]:text-xl [&_h3]:leading-7 [&_h3]:text-cream [&_h3]:font-medium [&_h3]:mt-8 [&_h3]:mb-3",
-          "[&_strong]:text-cream [&_strong]:font-semibold",
-          "[&_a]:text-[#67ADDC] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-accent",
-          "[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-6 [&_ul]:text-[#d8d7d4]",
-          "[&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-6 [&_ol]:text-[#d8d7d4]",
-          "[&_li]:text-base [&_li]:leading-[27.2px] [&_li]:mb-2",
-          "[&_img]:rounded-[3px] [&_img]:my-8 [&_img]:w-full",
-        ].join(" ")}
-      >
+      <div className={articleProseClasses}>
         <PrismicRichText field={chapter.chapter_content} />
       </div>
 

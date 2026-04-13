@@ -77,11 +77,12 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const idx = ids.indexOf(entry.target.id);
-            if (idx >= 0) setActiveChapterIndex(idx);
-          }
+        const intersecting = entries
+          .filter((e) => e.isIntersecting)
+          .map((e) => ids.indexOf(e.target.id))
+          .filter((idx) => idx >= 0);
+        if (intersecting.length > 0) {
+          setActiveChapterIndex(Math.min(...intersecting));
         }
       },
       { rootMargin: "-80px 0px -60% 0px" },
@@ -99,7 +100,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
     <div
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="bg-[#0e0e12] min-h-screen"
+      className="bg-background min-h-screen"
     >
       {/* Article-specific top bar overlaying the global one */}
       <ArticleTopBar
@@ -122,7 +123,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
               duration={activeListenData.formatted}
               size="sm"
             />
-            <span className="inline-flex items-center justify-center bg-[#0e0e12] border border-cream/12 h-10 w-10 rounded-full">
+            <span className="inline-flex items-center justify-center bg-background border border-cream/12 h-10 w-10 rounded-full">
               <Checkmark />
             </span>
           </div>
@@ -145,7 +146,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
       <div className="mx-auto max-w-[1440px] px-4 lg:px-[120px] mt-2">
         <div className="flex gap-6">
           {/* Left sidebar TOC — hidden on mobile */}
-          <aside className="hidden lg:block w-[280px] shrink-0 sticky top-24 self-start max-h-[calc(100vh-96px)] overflow-y-auto scrollbar-none">
+          <aside className="hidden lg:block w-[280px] shrink-0 sticky top-24 self-start max-h-[calc(100vh-96px)] overflow-y-auto [&::-webkit-scrollbar]:hidden">
             <TOCSidebar
               articles={articles}
               currentUid={currentUid}
@@ -174,7 +175,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
                 className="object-cover w-full h-full lg:object-contain lg:h-auto"
               />
               <div className="absolute left-4 lg:left-6 top-3 lg:top-6">
-                <span className="inline-flex items-center justify-center bg-[#0e0e12] h-[26px] px-2 rounded-full">
+                <span className="inline-flex items-center justify-center bg-background h-[26px] px-2 rounded-full">
                   <span className="font-mono text-xs font-medium text-cream uppercase tracking-[0.96px] leading-5">
                     Part {partNumber}
                   </span>

@@ -1,6 +1,19 @@
 import { Content } from "@prismicio/client";
 
 /**
+ * Sorts articles by their part_number field (ascending).
+ */
+export function sortArticlesByPartNumber(
+  articles: Content.ArticlepageDocument[],
+): Content.ArticlepageDocument[] {
+  return [...articles].sort((a, b) => {
+    const aNum = getArticleSlice(a)?.primary.part_number ?? 0;
+    const bNum = getArticleSlice(b)?.primary.part_number ?? 0;
+    return Number(aNum) - Number(bNum);
+  });
+}
+
+/**
  * Returns the primary StrategyAccordion slice of an article (always slot 0).
  * Returns undefined if the article has no slices.
  */

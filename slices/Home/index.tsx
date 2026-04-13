@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { pluralize } from "@/helpers/pluralize";
 import { formatListenMinutes, getArticleListenSeconds } from "@/helpers/listenTime";
+import { sortArticlesByPartNumber, getArticleSlice } from "@/helpers/article";
 
 type HomeContext = {
   articles?: Content.ArticlepageDocument[];
@@ -24,11 +25,7 @@ export type GuidePlaybookHeroProps =
  * Component for "GuidePlaybookHero" Slices.
  */
 const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
-  const articles = [...(context?.articles ?? [])].sort((a, b) => {
-    const aNum = (a.data.slices[0] as Content.StrategyAccordionSlice | undefined)?.primary.part_number ?? 0;
-    const bNum = (b.data.slices[0] as Content.StrategyAccordionSlice | undefined)?.primary.part_number ?? 0;
-    return Number(aNum) - Number(bNum);
-  });
+  const articles = sortArticlesByPartNumber(context?.articles ?? []);
   return (
     <div
       data-slice-type={slice.slice_type}
@@ -45,12 +42,12 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
             <div className="[&_h1]:text-[36px] lg:[&_h1]:text-[60px] [&_h1]:leading-[1.04] [&_h1]:tracking-[-0.72px] lg:[&_h1]:tracking-[-1.2px] [&_h1]:text-cream [&_h1]:font-normal">
               <PrismicRichText field={slice.primary.heading} />
             </div>
-            <div className="mt-6 lg:mt-8 [&_p]:text-sm lg:[&_p]:text-base [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-[#d8d7d4] [&_p]:opacity-60">
+            <div className="mt-6 lg:mt-8 [&_p]:text-sm lg:[&_p]:text-base [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-body-text [&_p]:opacity-60">
               <PrismicRichText field={slice.primary.description} />
             </div>
             <div className="mt-8 lg:mt-10">
               <PrismicNextLink field={slice.primary.cta_button}>
-                <CTAButton className="px-8 lg:px-12" icon={<AngleRight />} variant="primary">
+                <CTAButton as="span" className="px-8 lg:px-12" icon={<AngleRight />} variant="primary">
                   {slice.primary.cta_button.text}
                 </CTAButton>
               </PrismicNextLink>
@@ -76,8 +73,8 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
           <div className="mx-auto max-w-[1440px] px-4 lg:px-[120px] -mb-[1px]">
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article, index) => {
-              const articleSlice = article.data.slices[0] as Content.StrategyAccordionSlice | undefined;
+            {articles.map((article: Content.ArticlepageDocument, index: number) => {
+              const articleSlice = getArticleSlice(article);
               if (!articleSlice) return null;
               const { part_number, part_name, part_color, summary_description, chapter } = articleSlice.primary;
               const chapterCount = chapter?.length ?? 0;
@@ -106,7 +103,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                   </div>
                   <div>
                     {summary_description && (
-                      <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-[#d8d7d4] opacity-60 mb-4 lg:mb-[24px]">
+                      <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60 mb-4 lg:mb-[24px]">
                         {summary_description}
                       </p>
                     )}
@@ -182,7 +179,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                         />
                       </div>
                     )}
-                    <div className="[&_p]:text-[18px] lg:[&_p]:text-[24px] [&_p]:leading-[26px] lg:[&_p]:leading-[32px] [&_p]:text-[#d8d7d4] [&_p]:font-normal">
+                    <div className="[&_p]:text-[18px] lg:[&_p]:text-[24px] [&_p]:leading-[26px] lg:[&_p]:leading-[32px] [&_p]:text-body-text [&_p]:font-normal">
                       <PrismicRichText field={outcome.outcome_text} />
                     </div>
                   </div>
@@ -226,7 +223,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                       {card.audience_title}
                     </h3>
                   )}
-                  <div className="[&_p]:text-[14px] lg:[&_p]:text-[16px] [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-[#d8d7d4] [&_p]:opacity-60 lg:w-[90%]">
+                  <div className="[&_p]:text-[14px] lg:[&_p]:text-[16px] [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-body-text [&_p]:opacity-60 lg:w-[90%]">
                     <PrismicRichText field={card.audience_description} />
                   </div>
                 </div>

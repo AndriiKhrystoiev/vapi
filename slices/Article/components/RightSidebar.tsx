@@ -68,10 +68,10 @@ export default function RightSidebar({ slice, allSlices }: RightSidebarProps) {
                   xmlns="http://www.w3.org/2000/svg"
                   className="shrink-0"
                 >
-                  <circle cx="8" cy="8" r="6" stroke="#62f6b5" strokeWidth="1.2" />
+                  <circle cx="8" cy="8" r="6" className="stroke-accent" strokeWidth="1.2" />
                   <path
                     d="M5.5 8L7 9.5L10.5 6.5"
-                    stroke="#62f6b5"
+                    className="stroke-accent"
                     strokeWidth="1.2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -101,7 +101,7 @@ export default function RightSidebar({ slice, allSlices }: RightSidebarProps) {
 
       {/* Start Chapter CTA */}
       <button type="button" onClick={scrollToFirstChapter} className="cursor-pointer">
-        <CTAButton variant="primary" icon={<AngleRight />}>
+        <CTAButton as="span" variant="primary" icon={<AngleRight />}>
           Start Chapter 1
         </CTAButton>
       </button>

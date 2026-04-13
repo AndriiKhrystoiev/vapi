@@ -1,15 +1,14 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback } from "react";
 import { Content } from "@prismicio/client";
 import Link from "next/link";
-import CTAButton from "@/components/ui/CTAButton";
 import { ArticleTopBar } from "@/components/TopBar";
 import { AngleDown, AngleRight } from "@/components/icons";
+import ChapterStatusIcon from "@/components/shared/ChapterStatusIcon";
 import { pluralize } from "@/helpers/pluralize";
-import { slugify } from "@/helpers/slugify";
 import { getArticleSlice, getAllChapterTitlesForArticle } from "@/helpers/article";
-import { formatListenMinutes, getArticleListenSeconds } from "@/helpers/listenTime";
+import { useTOCState } from "@/helpers/useTOCState";
 import type { ArticleContext } from "../types";
 
 interface MobileTOCMenuProps {
@@ -31,59 +30,32 @@ export default function MobileTOCMenu({
   currentSlice,
   activeChapterIndex,
   allChapterTitles,
-  ctaButton,
 }: MobileTOCMenuProps) {
-  const sorted = useMemo(
-    () =>
-      [...articles].sort((a, b) => {
-        const aNum = getArticleSlice(a)?.primary.part_number ?? 0;
-        const bNum = getArticleSlice(b)?.primary.part_number ?? 0;
-        return Number(aNum) - Number(bNum);
-      }),
-    [articles],
-  );
-
-  const [expandedUid, setExpandedUid] = useState<string | null>(currentUid ?? null);
-
-  const totalChapters = sorted.reduce((sum, article) => {
-    return sum + getAllChapterTitlesForArticle(article).length;
-  }, 0);
-
-  // Global 1-based index of the currently-active chapter across all parts.
-  const globalChapterIndex = useMemo(() => {
-    let count = 0;
-    for (const article of sorted) {
-      if (article.uid === currentUid) {
-        return count + activeChapterIndex + 1;
-      }
-      count += getAllChapterTitlesForArticle(article).length;
-    }
-    return 0;
-  }, [sorted, currentUid, activeChapterIndex]);
-
-  const handleToggle = useCallback((uid: string) => {
-    setExpandedUid((prev) => (prev === uid ? null : uid));
-  }, []);
+  const {
+    sorted,
+    expandedUid,
+    totalChapters,
+    globalChapterIndex,
+    handleToggle,
+    scrollToChapter: baseScrollToChapter,
+    formatListenMinutes,
+    getArticleListenSeconds,
+  } = useTOCState(articles, currentUid, activeChapterIndex);
 
   const scrollToChapter = useCallback(
     (chapterTitle: string) => {
-      const id = slugify(chapterTitle);
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        onClose();
-      }
+      baseScrollToChapter(chapterTitle);
+      onClose();
     },
-    [onClose],
+    [baseScrollToChapter, onClose],
   );
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[70] bg-[#0e0e12] flex flex-col lg:hidden">
+    <div className="fixed inset-0 z-[70] bg-background flex flex-col lg:hidden">
       <ArticleTopBar partName={currentSlice.primary.part_name} onMenuClick={onClose} isMenuOpen={true} />
 
-      {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto px-4 pt-20 pb-4">
         {/* Progress indicator */}
         <div className="flex flex-col gap-2 mb-4">
@@ -121,7 +93,6 @@ export default function MobileTOCMenu({
 
             return (
               <div key={uid} className="border-t border-cream/12">
-                {/* Header row */}
                 <button
                   type="button"
                   className="flex items-center w-full py-5 text-left cursor-pointer"
@@ -145,7 +116,6 @@ export default function MobileTOCMenu({
                   </span>
                 </button>
 
-                {/* Expanded chapters */}
                 {isExpanded && (
                   <div className="flex flex-col gap-2 pb-4">
                     {displayTitles.map((title, idx) => {
@@ -156,26 +126,12 @@ export default function MobileTOCMenu({
                         : isActive
                           ? "text-cream font-semibold"
                           : "text-muted";
-
-                      const circleIcon = isRead ? (
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <circle cx="8" cy="8" r="6" stroke="#62f6b5" strokeWidth="1.2" />
-                          <path d="M5.5 8L7 9.5L10.5 6.5" stroke="#62f6b5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      ) : isActive ? (
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <circle cx="8" cy="8" r="6" stroke="#f5c842" strokeWidth="1.2" />
-                        </svg>
-                      ) : (
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <circle cx="8" cy="8" r="6" stroke="#52525b" strokeWidth="1.2" />
-                        </svg>
-                      );
+                      const status = isRead ? "read" : isActive ? "active" : "unread";
 
                       const content = (
                         <>
                           <span className="w-4 h-4 shrink-0 flex items-center justify-center">
-                            {circleIcon}
+                            <ChapterStatusIcon status={status} />
                           </span>
                           <span className={`text-base leading-6 ${textColor}`}>
                             {title}
@@ -214,18 +170,6 @@ export default function MobileTOCMenu({
           })}
         </div>
       </div>
-
-      {/* Fixed bottom CTA */}
-      {/* TODO: Temporary hide functionality */}
-      {/* {ctaButton && "text" in ctaButton && ctaButton.text && (
-        <div className="shrink-0 px-4 py-6 border-t border-cream/12">
-          <Link href={(ctaButton as { url?: string }).url ?? "#"} onClick={onClose}>
-            <CTAButton variant="outline" size="small">
-              {(ctaButton as { text?: string }).text}
-            </CTAButton>
-          </Link>
-        </div>
-      )} */}
     </div>
   );
 }

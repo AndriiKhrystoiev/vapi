@@ -18,6 +18,11 @@
   --color-border: #3F3F46;
   --color-border-active: #1e4a37;
   --color-pill-empty: #141414;
+  --color-body-text: #d8d7d4;
+  --color-surface-elevated: #18181b;
+  --color-surface-border: #3f3f46;
+  --color-chapter-active: #f5c842;
+  --color-chapter-unread: #52525b;
 }
 
 body {

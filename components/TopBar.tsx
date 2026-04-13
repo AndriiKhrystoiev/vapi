@@ -52,7 +52,7 @@ export default function TopBar({ headerLinks, ctaButton }: TopBarProps) {
           <button
             type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
-            className="lg:hidden flex items-center justify-center bg-[#18181b] border border-[#3f3f46] rounded-full px-4 py-2.5 h-9 cursor-pointer ml-3"
+            className="lg:hidden flex items-center justify-center bg-surface-elevated border border-surface-border rounded-full px-4 py-2.5 h-9 cursor-pointer ml-3"
           >
             {menuOpen ? <MenuDotsOpen /> : <MenuDots />}
           </button>
@@ -82,7 +82,7 @@ export default function TopBar({ headerLinks, ctaButton }: TopBarProps) {
           {/* Fixed bottom CTA */}
           <div className="shrink-0 px-4 py-6 border-t border-cream/12">
             <PrismicNextLink field={ctaButton} onClick={() => setMenuOpen(false)}>
-              <CTAButton variant="outline" size="small">
+              <CTAButton as="span" variant="outline" size="small">
                 {ctaButton.text}
               </CTAButton>
             </PrismicNextLink>
@@ -138,7 +138,7 @@ export function ArticleTopBar({ partName, ctaButton, onMenuClick, isMenuOpen }: 
           <button
             type="button"
             onClick={onMenuClick}
-            className="lg:hidden flex items-center justify-center bg-[#18181b] border border-[#3f3f46] rounded-full px-4 py-2.5 h-9 cursor-pointer"
+            className="lg:hidden flex items-center justify-center bg-surface-elevated border border-surface-border rounded-full px-4 py-2.5 h-9 cursor-pointer"
           >
             {isMenuOpen ? <MenuDotsOpen /> : <MenuDots />}
           </button>

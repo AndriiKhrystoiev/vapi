@@ -28,7 +28,7 @@ export default function CTAButton({
   variant = "primary",
   size = "default",
   icon,
-  as: Tag = "span",
+  as: Tag = "button",
   children,
   className = "",
 }: CTAButtonProps) {
