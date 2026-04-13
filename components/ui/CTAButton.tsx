@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "outline" | "cream";
+type Variant = "primary" | "secondary" | "outline" | "cream" | "tertiary";
 type Size = "default" | "small";
 
 interface CTAButtonProps {
@@ -17,6 +17,7 @@ const variantClasses: Record<Variant, string> = {
   secondary: "bg-[#09090b] border border-[#3f3f46] text-white",
   outline: "border border-border text-cream",
   cream: "bg-cream text-[#0a0a0a]",
+  tertiary: "bg-surface-elevated border border-border text-white",
 };
 
 const sizeClasses: Record<Size, string> = {

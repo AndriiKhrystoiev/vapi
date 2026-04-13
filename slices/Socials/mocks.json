@@ -1,0 +1,35 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"social_links": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"social_link",
+								{
+									"key": "5330f238-a8ce-4a23-856d-832ba5c8b976",
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "FileLink",
+										"id": "mock_Media_link",
+										"kind": "file",
+										"name": "mock_name",
+										"url": "https://source.unsplash.com/daily",
+										"size": "0",
+										"text": "shallow"
+									}
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

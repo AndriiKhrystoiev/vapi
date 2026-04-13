@@ -138,6 +138,40 @@ export type ArticlepageDocument<Lang extends string = string> =
     Lang
   >;
 
+type FooterDocumentDataSlicesSlice = CtaSlice;
+
+/**
+ * Content for Footer documents
+ */
+interface FooterDocumentData {
+  /**
+   * Slice Zone field in *Footer*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: footer.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<FooterDocumentDataSlicesSlice>;
+}
+
+/**
+ * Footer document from Prismic
+ *
+ * - **API ID**: `footer`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type FooterDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<FooterDocumentData>,
+    "footer",
+    Lang
+  >;
+
 type HomePageDocumentDataSlicesSlice = GuidePlaybookHeroSlice;
 
 /**
@@ -203,6 +237,40 @@ export type HomePageDocument<Lang extends string = string> =
     Lang
   >;
 
+type SociallinksDocumentDataSlicesSlice = SocialsSlice;
+
+/**
+ * Content for SocialLinks documents
+ */
+interface SociallinksDocumentData {
+  /**
+   * Slice Zone field in *SocialLinks*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sociallinks.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<SociallinksDocumentDataSlicesSlice>;
+}
+
+/**
+ * SocialLinks document from Prismic
+ *
+ * - **API ID**: `sociallinks`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SociallinksDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SociallinksDocumentData>,
+    "sociallinks",
+    Lang
+  >;
+
 type TopBarDocumentDataSlicesSlice = VoiceAgentPlaybookSlice;
 
 /**
@@ -239,7 +307,9 @@ export type TopBarDocument<Lang extends string = string> =
 
 export type AllDocumentTypes =
   | ArticlepageDocument
+  | FooterDocument
   | HomePageDocument
+  | SociallinksDocument
   | TopBarDocument;
 
 /**
@@ -311,6 +381,78 @@ export type ChapterSlice = prismic.SharedSlice<
   "chapter",
   ChapterSliceVariation
 >;
+
+/**
+ * Item in *Footer → Default → Primary → Footer links*
+ */
+export interface CtaSliceDefaultPrimaryFooterLinksItem {
+  /**
+   * Footer link field in *Footer → Default → Primary → Footer links*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: cta.default.primary.footer_links[].footer_link
+   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+   */
+  footer_link: prismic.LinkToMediaField<
+    prismic.FieldState,
+    "Primary" | "Secondary" | "Tertiary"
+  >;
+}
+
+/**
+ * Primary content in *Footer → Default → Primary*
+ */
+export interface CtaSliceDefaultPrimary {
+  /**
+   * Heading field in *Footer → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Enter the main heading
+   * - **API ID Path**: cta.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Footer links field in *Footer → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: cta.default.primary.footer_links[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  footer_links: prismic.GroupField<
+    Simplify<CtaSliceDefaultPrimaryFooterLinksItem>
+  >;
+}
+
+/**
+ * Default variation for Footer Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default CTA variation with heading and two action buttons
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CtaSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<CtaSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Footer*
+ */
+type CtaSliceVariation = CtaSliceDefault;
+
+/**
+ * Footer Shared Slice
+ *
+ * - **API ID**: `cta`
+ * - **Description**: Call-to-action section with heading and action buttons
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CtaSlice = prismic.SharedSlice<"cta", CtaSliceVariation>;
 
 /**
  * Item in *Home → HomePage → Primary → Learning Outcomes*
@@ -409,7 +551,23 @@ export interface GuidePlaybookHeroSliceDefaultPrimary {
     string,
     unknown,
     prismic.FieldState,
-    never
+    "Primary" | "Secondary"
+  >;
+
+  /**
+   * Newsletter button field in *Home → HomePage → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_playbook_hero.default.primary.newsletter_button
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  newsletter_button: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    "Primary" | "Secondary"
   >;
 
   /**
@@ -543,19 +701,66 @@ export type RichTextSlice = prismic.SharedSlice<
 >;
 
 /**
- * Item in *Article → Default → Primary → You will learn items*
+ * Item in *Socials → Default → Primary → Social Links*
  */
-export interface StrategyAccordionSliceDefaultPrimaryYouWillLearnItemsItem {
+export interface SocialsSliceDefaultPrimarySocialLinksItem {
   /**
-   * Learn item field in *Article → Default → Primary → You will learn items*
+   * Social Link field in *Socials → Default → Primary → Social Links*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
-   * - **API ID Path**: strategy_accordion.default.primary.you_will_learn_items[].learn_item
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **API ID Path**: socials.default.primary.social_links[].social_link
+   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
    */
-  learn_item: prismic.KeyTextField;
+  social_link: prismic.LinkToMediaField<prismic.FieldState, never>;
 }
+
+/**
+ * Primary content in *Socials → Default → Primary*
+ */
+export interface SocialsSliceDefaultPrimary {
+  /**
+   * Social Links field in *Socials → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: socials.default.primary.social_links[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  social_links: prismic.GroupField<
+    Simplify<SocialsSliceDefaultPrimarySocialLinksItem>
+  >;
+}
+
+/**
+ * Default variation for Socials Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type SocialsSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<SocialsSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Socials*
+ */
+type SocialsSliceVariation = SocialsSliceDefault;
+
+/**
+ * Socials Shared Slice
+ *
+ * - **API ID**: `socials`
+ * - **Description**: Socials
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type SocialsSlice = prismic.SharedSlice<
+  "socials",
+  SocialsSliceVariation
+>;
 
 /**
  * Item in *Article → Default → Primary → Chapter*
@@ -615,28 +820,6 @@ export interface StrategyAccordionSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/color
    */
   part_color: prismic.ColorField;
-
-  /**
-   * You will learn items field in *Article → Default → Primary*
-   *
-   * - **Field Type**: Group
-   * - **Placeholder**: *None*
-   * - **API ID Path**: strategy_accordion.default.primary.you_will_learn_items[]
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */
-  you_will_learn_items: prismic.GroupField<
-    Simplify<StrategyAccordionSliceDefaultPrimaryYouWillLearnItemsItem>
-  >;
-
-  /**
-   * Summary description field in *Article → Default → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: strategy_accordion.default.primary.summary_description
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  summary_description: prismic.KeyTextField;
 
   /**
    * Chapter field in *Article → Default → Primary*
@@ -866,9 +1049,15 @@ declare module "@prismicio/client" {
       ArticlepageDocument,
       ArticlepageDocumentData,
       ArticlepageDocumentDataSlicesSlice,
+      FooterDocument,
+      FooterDocumentData,
+      FooterDocumentDataSlicesSlice,
       HomePageDocument,
       HomePageDocumentData,
       HomePageDocumentDataSlicesSlice,
+      SociallinksDocument,
+      SociallinksDocumentData,
+      SociallinksDocumentDataSlicesSlice,
       TopBarDocument,
       TopBarDocumentData,
       TopBarDocumentDataSlicesSlice,
@@ -878,6 +1067,11 @@ declare module "@prismicio/client" {
       ChapterSliceDefaultPrimary,
       ChapterSliceVariation,
       ChapterSliceDefault,
+      CtaSlice,
+      CtaSliceDefaultPrimaryFooterLinksItem,
+      CtaSliceDefaultPrimary,
+      CtaSliceVariation,
+      CtaSliceDefault,
       GuidePlaybookHeroSlice,
       GuidePlaybookHeroSliceDefaultPrimaryLearningOutcomesItem,
       GuidePlaybookHeroSliceDefaultPrimaryAudienceCardsItem,
@@ -888,8 +1082,12 @@ declare module "@prismicio/client" {
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,
       RichTextSliceDefault,
+      SocialsSlice,
+      SocialsSliceDefaultPrimarySocialLinksItem,
+      SocialsSliceDefaultPrimary,
+      SocialsSliceVariation,
+      SocialsSliceDefault,
       StrategyAccordionSlice,
-      StrategyAccordionSliceDefaultPrimaryYouWillLearnItemsItem,
       StrategyAccordionSliceDefaultPrimaryChapterItem,
       StrategyAccordionSliceDefaultPrimary,
       StrategyAccordionSliceVariation,

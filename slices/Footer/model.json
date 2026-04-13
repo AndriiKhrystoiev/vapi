@@ -1,0 +1,50 @@
+{
+  "id": "cta",
+  "type": "SharedSlice",
+  "name": "Footer",
+  "description": "Call-to-action section with heading and action buttons",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default CTA variation with heading and two action buttons",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading1",
+            "placeholder": "Enter the main heading"
+          }
+        },
+        "footer_links": {
+          "type": "Group",
+          "config": {
+            "label": "Footer links",
+            "repeat": true,
+            "fields": {
+              "footer_link": {
+                "type": "Link",
+                "config": {
+                  "label": "Footer link",
+                  "placeholder": "",
+                  "select": "media",
+                  "allowText": true,
+                  "variants": [
+                    "Primary",
+                    "Secondary",
+                    "Tertiary"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

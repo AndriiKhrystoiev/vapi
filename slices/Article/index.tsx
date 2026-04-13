@@ -4,7 +4,6 @@ import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import Image from "next/image";
-import Footer from "@/components/shared/Footer";
 import ListenButton from "@/components/shared/ListenButton";
 import { ArticleTopBar } from "@/components/TopBar";
 import { Checkmark } from "@/components/icons";
@@ -209,8 +208,6 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
           </main>
         </div>
       </div>
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

@@ -26,12 +26,13 @@
 				]
 			},
 			"cta_button": {
-				"key": "77a3f019-ecc0-474a-88e3-e56a077541e9",
 				"__TYPE__": "LinkContent",
+				"key": "7ec66196-b010-4630-9d64-12a94fdc6841",
 				"value": {
 					"__TYPE__": "ExternalLink",
-					"url": "http://twitter.com",
-					"text": "gravity"
+					"url": "https://prismic.io",
+					"text": "shake",
+					"variant": "Primary"
 				}
 			},
 			"table_of_contents_heading": {
@@ -67,7 +68,6 @@
 							[
 								"outcome_image",
 								{
-									"__TYPE__": "ImageContent",
 									"origin": {
 										"id": "main",
 										"url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f",
@@ -86,6 +86,8 @@
 										"background": "transparent"
 									},
 									"alt": "became",
+									"credits": null,
+									"__TYPE__": "ImageContent",
 									"thumbnails": {}
 								}
 							]
@@ -137,6 +139,16 @@
 						]
 					}
 				]
+			},
+			"newsletter_button": {
+				"key": "f210fc2a-8ddb-4726-8c23-44fe867732ca",
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://slicemachine.dev",
+					"text": "leaf",
+					"variant": "Secondary"
+				}
 			}
 		},
 		"items": []

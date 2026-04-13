@@ -28,6 +28,18 @@ export default function TopBar({ headerLinks, ctaButton }: TopBarProps) {
 
           {/* Nav Links — desktop only, centered */}
           <div className="hidden lg:flex flex-1 items-center justify-center gap-10">
+            <a
+              href="#overview"
+              className="font-mono text-xs font-medium uppercase tracking-[1.5px] text-muted hover:text-cream transition-colors"
+            >
+              Overview
+            </a>
+            <a
+              href="#audience"
+              className="font-mono text-xs font-medium uppercase tracking-[1.5px] text-muted hover:text-cream transition-colors"
+            >
+              Audience
+            </a>
             {headerLinks.map((link, i) => (
               <PrismicNextLink
                 key={i}
@@ -41,12 +53,11 @@ export default function TopBar({ headerLinks, ctaButton }: TopBarProps) {
           <div className="flex-1 lg:hidden" />
 
           {/* CTA Button — desktop only */}
-          {/* TODO: Temporary hide functionality */}
-          {/* <PrismicNextLink field={ctaButton} className="hidden lg:block">
+          <PrismicNextLink field={ctaButton} className="hidden lg:block">
             <CTAButton variant="outline" size="small">
               {ctaButton.text}
             </CTAButton>
-          </PrismicNextLink> */}
+          </PrismicNextLink>
 
           {/* Mobile menu button */}
           <button

@@ -1,4 +1,5 @@
 import { SliceZone } from "@prismicio/react";
+import { Content } from "@prismicio/client";
 
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
@@ -22,7 +23,7 @@ export async function generateMetadata({
   const partName = articleSlice?.primary.part_name ?? uid;
   return {
     title: `${partName} | Voice Agent Playbook`,
-    description: articleSlice?.primary.summary_description ?? "",
+    description: (articleSlice?.primary as Record<string, unknown>)?.summary_description as string ?? "",
   };
 }
 
@@ -33,19 +34,26 @@ export default async function ArticlePage({
 }) {
   const { uid } = await params;
   const client = createClient();
-  const [page, articles, topBar] = await Promise.all([
+  const [page, articles, topBar, socialLinksDoc] = await Promise.all([
     client.getByUID("articlepage", uid),
     client.getAllByType("articlepage"),
     client.getSingle("top_bar"),
+    client.getSingle("sociallinks").catch(() => null),
   ]);
 
   const ctaButton = topBar.data.slices[0]?.primary.cta_button;
+
+  // Extract social links from the sociallinks document
+  const socialsSlice = socialLinksDoc?.data.slices.find(
+    (s): s is Content.SocialsSlice => s.slice_type === "socials",
+  );
+  const socialLinks = socialsSlice?.primary.social_links ?? [];
 
   return (
     <SliceZone
       slices={page.data.slices}
       components={components}
-      context={{ articles, currentUid: uid, allSlices: page.data.slices, ctaButton }}
+      context={{ articles, currentUid: uid, allSlices: page.data.slices, ctaButton, socialLinks }}
     />
   );
 }

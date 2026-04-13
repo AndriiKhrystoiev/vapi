@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { LinkField } from "@prismicio/client";
+import { LinkField, Content } from "@prismicio/client";
 import { createClient } from "@/prismicio";
 import TopBar from "@/components/TopBar";
+import FooterSlice from "@/slices/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,20 +28,36 @@ export default async function RootLayout({
 }>) {
   let headerLinks: LinkField[] = [];
   let ctaButton: LinkField = {} as LinkField;
+  let footerSlice: Content.CtaSlice | null = null;
+  let socialLinks: Content.SocialsSliceDefaultPrimarySocialLinksItem[] = [];
 
   try {
     const client = createClient();
-    const topBar = await client.getSingle("top_bar");
+    const [topBar, footerDoc, socialLinksDoc] = await Promise.all([
+      client.getSingle("top_bar"),
+      client.getSingle("footer").catch(() => null),
+      client.getSingle("sociallinks").catch(() => null),
+    ]);
+
     const defaultSlice = topBar.data.slices.find((s) => s.variation === "default");
     const primary = defaultSlice?.primary as Record<string, unknown> | undefined;
     headerLinks = (primary?.header_link ?? []) as LinkField[];
     ctaButton = (primary?.cta_button ?? {}) as LinkField;
+
+    footerSlice = (footerDoc?.data.slices.find(
+      (s): s is Content.CtaSlice => s.slice_type === "cta",
+    ) ?? null);
+
+    const socialsSlice = socialLinksDoc?.data.slices.find(
+      (s): s is Content.SocialsSlice => s.slice_type === "socials",
+    );
+    socialLinks = socialsSlice?.primary.social_links ?? [];
   } catch {
-    // Site renders without nav rather than hard-crashing
+    // Site renders without nav/footer rather than hard-crashing
   }
 
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -48,6 +65,9 @@ export default async function RootLayout({
         <div className="pt-15">
           {children}
         </div>
+        {footerSlice && (
+          <FooterSlice slice={footerSlice} socialLinks={socialLinks} />
+        )}
       </body>
     </html>
   );

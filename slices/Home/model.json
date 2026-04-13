@@ -32,8 +32,28 @@
           "type": "Link",
           "config": {
             "label": "CTA Button",
+            "placeholder": "",
             "allowText": true,
-            "select": null
+            "select": null,
+            "variants": [
+              "Primary",
+              "Secondary"
+            ]
+          }
+        },
+        "newsletter_button": {
+          "type": "Link",
+          "config": {
+            "label": "Newsletter button",
+            "placeholder": "",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false,
+            "variants": [
+              "Primary",
+              "Secondary"
+            ]
           }
         },
         "table_of_contents_heading": {

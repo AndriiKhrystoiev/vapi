@@ -1,0 +1,22 @@
+{
+  "format": "custom",
+  "id": "sociallinks",
+  "label": "SocialLinks",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "socials": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}

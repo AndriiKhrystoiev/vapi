@@ -4,8 +4,10 @@ import dynamic from "next/dynamic";
 
 export const components = {
   chapter: dynamic(() => import("./Chapter")),
+  cta: dynamic(() => import("./Footer")),
   guide_playbook_hero: dynamic(() => import("./Home")),
   rich_text: dynamic(() => import("./RichText")),
+  socials: dynamic(() => import("./Socials")),
   strategy_accordion: dynamic(() => import("./Article")),
   table: dynamic(() => import("./Table")),
   voice_agent_playbook: dynamic(() => import("./TopBar")),

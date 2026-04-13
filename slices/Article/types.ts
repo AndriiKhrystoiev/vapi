@@ -13,4 +13,5 @@ export type ArticleContext = {
   currentUid?: string;
   allSlices?: SiblingSlice[];
   ctaButton?: Content.VoiceAgentPlaybookSliceArticlePagePrimary["cta_button"];
+  socialLinks?: Content.SocialsSliceDefaultPrimarySocialLinksItem[];
 };

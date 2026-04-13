@@ -33,29 +33,6 @@
             "placeholder": "Select part theme color"
           }
         },
-        "you_will_learn_items": {
-          "type": "Group",
-          "config": {
-            "label": "You will learn items",
-            "repeat": true,
-            "fields": {
-              "learn_item": {
-                "type": "Text",
-                "config": {
-                  "label": "Learn item",
-                  "placeholder": ""
-                }
-              }
-            }
-          }
-        },
-        "summary_description": {
-          "type": "Text",
-          "config": {
-            "label": "Summary description",
-            "placeholder": ""
-          }
-        },
         "chapter": {
           "type": "Group",
           "config": {
