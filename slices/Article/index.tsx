@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import Image from "next/image";
@@ -60,6 +60,37 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
   );
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Track which chapters the user has marked as read (persisted to localStorage)
+  const storageKey = `read-chapters-${currentUid ?? "unknown"}`;
+  const [readChapters, setReadChapters] = useState<Set<number>>(new Set());
+
+  // Load persisted read state after hydration
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydration sync from localStorage
+        setReadChapters(new Set(JSON.parse(stored) as number[]));
+      }
+    } catch { /* noop */ }
+  }, [storageKey]);
+
+  const handleMarkRead = useCallback((index: number) => {
+    setReadChapters((prev) => {
+      const next = new Set(prev);
+      next.add(index);
+      try { localStorage.setItem(storageKey, JSON.stringify([...next])); } catch { /* noop */ }
+      return next;
+    });
+    // Scroll to next chapter
+    const nextTitle = allChapterTitles[index + 1];
+    if (nextTitle) {
+      const id = slugify(nextTitle);
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [allChapterTitles, storageKey]);
 
   // Track active chapter via IntersectionObserver
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
@@ -136,9 +167,18 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
               duration={activeListenData.formatted}
               size="sm"
             />
-            <span className="inline-flex items-center justify-center bg-background border border-cream/12 h-10 w-10 rounded-full">
-              <Checkmark />
-            </span>
+            <button
+              key={`mark-${activeChapterIndex}`}
+              type="button"
+              onClick={() => handleMarkRead(activeChapterIndex)}
+              className={`inline-flex items-center justify-center h-10 w-10 rounded-full border transition-colors ${
+                readChapters.has(activeChapterIndex)
+                  ? "bg-accent border-accent"
+                  : "bg-background border-cream/12"
+              }`}
+            >
+              <Checkmark color={readChapters.has(activeChapterIndex) ? "#0a0a0a" : "#FFFAEB"} />
+            </button>
           </div>
         </div>
       </div>
@@ -153,6 +193,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
         activeChapterIndex={activeChapterIndex}
         allChapterTitles={allChapterTitles}
         ctaButton={ctaButton}
+        readChapters={readChapters}
       />
 
       {/* Three-column layout */}
@@ -166,6 +207,7 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
               currentSlice={slice}
               activeChapterIndex={activeChapterIndex}
               allChapterTitles={allChapterTitles}
+              readChapters={readChapters}
             />
           </aside>
 
@@ -212,12 +254,14 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
                     chapter={chapter}
                     index={index}
                     isLast={index === chapters.length - 1}
+                    isRead={readChapters.has(index)}
+                    onMarkRead={() => handleMarkRead(index)}
                   />
                 ))}
               </div>
 
               {/* Sibling slices (RichText, Table, Chapter) rendered inline */}
-              <SiblingSlices slices={allSlices} baseChapterCount={chapters.length} />
+              <SiblingSlices slices={allSlices} baseChapterCount={chapters.length} readChapters={readChapters} onMarkRead={handleMarkRead} />
             </div>
           </main>
         </div>

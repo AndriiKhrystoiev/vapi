@@ -14,9 +14,11 @@ interface ChapterSectionProps {
   chapter: Content.StrategyAccordionSliceDefaultPrimaryChapterItem;
   index: number;
   isLast: boolean;
+  isRead?: boolean;
+  onMarkRead?: () => void;
 }
 
-export default function ChapterSection({ chapter, index, isLast }: ChapterSectionProps) {
+export default function ChapterSection({ chapter, index, isLast, isRead, onMarkRead }: ChapterSectionProps) {
   const chapterId = chapter.chapter_title ? slugify(chapter.chapter_title) : `chapter-${index}`;
   const listenData = useMemo(
     () => getChapterListenData(chapter.chapter_content),
@@ -41,9 +43,17 @@ export default function ChapterSection({ chapter, index, isLast }: ChapterSectio
               duration={listenData.formatted}
               size="md"
             />
-            <span className="inline-flex items-center justify-center bg-background border border-cream/12 h-12 w-12 rounded-full">
-              <Checkmark />
-            </span>
+            <button
+              type="button"
+              onClick={onMarkRead}
+              className={`inline-flex items-center justify-center h-12 w-12 rounded-full border transition-colors ${
+                isRead
+                  ? "bg-accent border-accent"
+                  : "bg-background border-cream/12"
+              }`}
+            >
+              <Checkmark color={isRead ? "#0a0a0a" : "#FFFAEB"} />
+            </button>
           </div>
         </div>
       </div>

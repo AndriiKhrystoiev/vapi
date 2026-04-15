@@ -45,23 +45,32 @@ function InlineTable({ slice }: { slice: Content.TableSlice }) {
 function InlineChapterSlice({
   slice,
   chapterOffset,
+  readChapters,
+  onMarkRead,
 }: {
   slice: Content.ChapterSlice;
   chapterOffset: number;
+  readChapters: Set<number>;
+  onMarkRead: (index: number) => void;
 }) {
   const chapters = slice.primary.chapter ?? [];
   return (
     <>
       {/* Divider before chapter slice content */}
       <div className="w-full h-px bg-cream/12 my-10" />
-      {chapters.map((chapter, idx) => (
-        <ChapterSection
-          key={`chapter-slice-${idx}`}
-          chapter={chapter as Content.StrategyAccordionSliceDefaultPrimaryChapterItem}
-          index={chapterOffset + idx}
-          isLast={idx === chapters.length - 1}
-        />
-      ))}
+      {chapters.map((chapter, idx) => {
+        const globalIdx = chapterOffset + idx;
+        return (
+          <ChapterSection
+            key={`chapter-slice-${idx}`}
+            chapter={chapter as Content.StrategyAccordionSliceDefaultPrimaryChapterItem}
+            index={globalIdx}
+            isLast={idx === chapters.length - 1}
+            isRead={readChapters.has(globalIdx)}
+            onMarkRead={() => onMarkRead(globalIdx)}
+          />
+        );
+      })}
     </>
   );
 }
@@ -69,9 +78,11 @@ function InlineChapterSlice({
 interface SiblingSlicesProps {
   slices: SiblingSlice[];
   baseChapterCount: number;
+  readChapters: Set<number>;
+  onMarkRead: (index: number) => void;
 }
 
-export default function SiblingSlices({ slices, baseChapterCount }: SiblingSlicesProps) {
+export default function SiblingSlices({ slices, baseChapterCount, readChapters, onMarkRead }: SiblingSlicesProps) {
   // Render all slices that come after the first strategy_accordion slice
   const siblingSlices = useMemo(
     () => slices.slice(slices.findIndex((s) => s.slice_type === "strategy_accordion") + 1),
@@ -108,6 +119,8 @@ export default function SiblingSlices({ slices, baseChapterCount }: SiblingSlice
               key={i}
               slice={s as Content.ChapterSlice}
               chapterOffset={chapterOffsets[i]}
+              readChapters={readChapters}
+              onMarkRead={onMarkRead}
             />
           );
         }
