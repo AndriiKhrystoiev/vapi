@@ -8,6 +8,7 @@ import { Checkmark } from "@/components/icons";
 import { slugify } from "@/helpers/slugify";
 import { getChapterListenData } from "@/helpers/listenTime";
 import { articleProseClasses } from "@/lib/proseClasses";
+import { richTextComponents } from "@/lib/richTextComponents";
 
 interface ChapterSectionProps {
   chapter: Content.StrategyAccordionSliceDefaultPrimaryChapterItem;
@@ -49,7 +50,7 @@ export default function ChapterSection({ chapter, index, isLast }: ChapterSectio
 
       {/* Chapter rich text content */}
       <div className={articleProseClasses}>
-        <PrismicRichText field={chapter.chapter_content} />
+        <PrismicRichText field={chapter.chapter_content} components={richTextComponents} />
       </div>
 
       {/* Divider between chapters */}

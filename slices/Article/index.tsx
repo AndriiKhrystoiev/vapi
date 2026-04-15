@@ -81,7 +81,9 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
           .map((e) => ids.indexOf(e.target.id))
           .filter((idx) => idx >= 0);
         if (intersecting.length > 0) {
-          setActiveChapterIndex(Math.min(...intersecting));
+          const idx = Math.min(...intersecting);
+          setActiveChapterIndex(idx);
+          history.replaceState(null, "", `#${ids[idx]}`);
         }
       },
       { rootMargin: "-80px 0px -60% 0px" },
@@ -94,6 +96,18 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
 
     return () => observerRef.current?.disconnect();
   }, [allChapterTitles]);
+
+  // Scroll to hash target on initial mount (chapter or section heading)
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    // Small delay to ensure DOM is rendered
+    const timer = setTimeout(() => {
+      const el = document.getElementById(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div

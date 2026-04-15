@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { Content } from "@prismicio/client";
 import { PrismicRichText, PrismicTable } from "@prismicio/react";
 import { articleProseClasses } from "@/lib/proseClasses";
+import { richTextComponents } from "@/lib/richTextComponents";
 import { prismicTableComponents } from "@/lib/tableComponents";
 import ChapterSection from "./ChapterSection";
 import type { SiblingSlice } from "../types";
@@ -11,7 +12,7 @@ import type { SiblingSlice } from "../types";
 function InlineRichText({ slice }: { slice: Content.RichTextSlice }) {
   return (
     <div className={articleProseClasses}>
-      <PrismicRichText field={slice.primary.rich_text} />
+      <PrismicRichText field={slice.primary.rich_text} components={richTextComponents} />
     </div>
   );
 }

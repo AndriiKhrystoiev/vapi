@@ -43,6 +43,7 @@ export function useTOCState(
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.replaceState(null, "", `#${id}`);
     }
   }, []);
 
