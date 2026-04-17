@@ -88,10 +88,9 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
               const readingMinutes = formatListenMinutes(getArticleListenSeconds(article));
               const isLastRow = index >= articles.length - (articles.length % 3 || 3);
               return (
-                <Link
+                <div
                   key={article.id}
-                  href={article.url ?? "#"}
-                  className={`group relative grid grid-rows-[subgrid] row-span-3 gap-4 lg:gap-6 min-h-[240px] lg:min-h-[376px] md:px-[24px] pt-8 lg:pt-[48px] pb-4 lg:pb-6 border-b border-border ${
+                  className={`group relative grid grid-rows-[subgrid] row-span-4 gap-4 lg:gap-6 min-h-[240px] lg:min-h-[376px] md:px-[24px] pt-8 lg:pt-[48px] pb-4 lg:pb-6 border-b border-border ${
                     index % 3 !== 0 ? "md:border-l md:border-l-border" : ""
                   } ${isLastRow ? "border-b-[rgba(255,250,235,0.12)]" : ""}`}
                 >
@@ -109,7 +108,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                     </h3>
                   </div>
                   {brief_description && (
-                    <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60">
+                    <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60 self-end">
                       {brief_description}
                     </p>
                   )}
@@ -126,9 +125,24 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                         </>
                       )}
                     </p>
-                    <AngleDown className="text-muted group-hover:text-accent transition-colors" />
                   </div>
-                </Link>
+                  <div className="flex items-center gap-4 justify-between">
+                    <a
+                      href={`/api/pdf/${article.uid}`}
+                      className="w-1/2"
+                      download
+                    >
+                      <CTAButton className="w-full text-center" as="span" variant="secondary" size="small" icon={<AngleDown />}>
+                        PDF
+                      </CTAButton>
+                    </a>
+                    <Link className="w-1/2" href={article.url ?? "#"}>
+                      <CTAButton className="w-full" as="span" variant="primary" size="small">
+                        View
+                      </CTAButton>
+                    </Link>
+                  </div>
+                </div>
               );
             })}
           </div>

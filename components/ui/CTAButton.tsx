@@ -35,7 +35,7 @@ export default function CTAButton({
 }: CTAButtonProps) {
   return (
     <Tag
-      className={`group inline-flex items-center gap-2.5 rounded-full font-mono font-medium uppercase tracking-[1.5px] ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      className={`group inline-flex justify-center items-center gap-2.5 rounded-full font-mono font-medium uppercase tracking-[1.5px] ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
     >
       {children}
       {icon && (
