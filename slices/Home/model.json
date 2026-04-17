@@ -56,10 +56,10 @@
             ]
           }
         },
-        "table_of_contents_heading": {
+        "table_of_contents_description": {
           "type": "Text",
           "config": {
-            "label": "Table of Contents Heading",
+            "label": "Table of Contents Description",
             "placeholder": "e.g., Table of Contents"
           }
         },
@@ -75,6 +75,13 @@
           "config": {
             "label": "Learning Outcomes",
             "fields": {
+              "outcome_heading": {
+                "type": "Text",
+                "config": {
+                  "label": "Outcome Heading",
+                  "placeholder": ""
+                }
+              },
               "outcome_text": {
                 "type": "StructuredText",
                 "config": {

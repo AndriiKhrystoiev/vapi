@@ -459,6 +459,16 @@ export type CtaSlice = prismic.SharedSlice<"cta", CtaSliceVariation>;
  */
 export interface GuidePlaybookHeroSliceDefaultPrimaryLearningOutcomesItem {
   /**
+   * Outcome Heading field in *Home → HomePage → Primary → Learning Outcomes*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_playbook_hero.default.primary.learning_outcomes[].outcome_heading
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  outcome_heading: prismic.KeyTextField;
+
+  /**
    * Outcome Text field in *Home → HomePage → Primary → Learning Outcomes*
    *
    * - **Field Type**: Rich Text
@@ -571,14 +581,14 @@ export interface GuidePlaybookHeroSliceDefaultPrimary {
   >;
 
   /**
-   * Table of Contents Heading field in *Home → HomePage → Primary*
+   * Table of Contents Description field in *Home → HomePage → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: e.g., Table of Contents
-   * - **API ID Path**: guide_playbook_hero.default.primary.table_of_contents_heading
+   * - **API ID Path**: guide_playbook_hero.default.primary.table_of_contents_description
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  table_of_contents_heading: prismic.KeyTextField;
+  table_of_contents_description: prismic.KeyTextField;
 
   /**
    * Learning Section Heading field in *Home → HomePage → Primary*

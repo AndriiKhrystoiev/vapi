@@ -26,19 +26,14 @@
 				]
 			},
 			"cta_button": {
-				"__TYPE__": "LinkContent",
 				"key": "7ec66196-b010-4630-9d64-12a94fdc6841",
+				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "ExternalLink",
 					"url": "https://prismic.io",
 					"text": "shake",
 					"variant": "Primary"
 				}
-			},
-			"table_of_contents_heading": {
-				"__TYPE__": "FieldContent",
-				"value": "may",
-				"type": "Text"
 			},
 			"learning_section_heading": {
 				"__TYPE__": "FieldContent",
@@ -89,6 +84,14 @@
 									"credits": null,
 									"__TYPE__": "ImageContent",
 									"thumbnails": {}
+								}
+							],
+							[
+								"outcome_heading",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "reason",
+									"type": "Text"
 								}
 							]
 						]
@@ -149,6 +152,11 @@
 					"text": "leaf",
 					"variant": "Secondary"
 				}
+			},
+			"table_of_contents_description": {
+				"__TYPE__": "FieldContent",
+				"value": "cake",
+				"type": "Text"
 			}
 		},
 		"items": []

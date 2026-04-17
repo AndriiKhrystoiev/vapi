@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Content } from "@prismicio/client";
 import { SliceComponentProps, PrismicRichText } from "@prismicio/react";
-import { PrismicNextLink, PrismicNextImage } from "@prismicio/next";
+import { PrismicNextLink } from "@prismicio/next";
 import CTAButton from "@/components/ui/CTAButton";
 import { AngleDown, AngleRight, CircleInButton } from "@/components/icons";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import { pluralize } from "@/helpers/pluralize";
 import { formatListenMinutes, getArticleListenSeconds } from "@/helpers/listenTime";
 import { sortArticlesByPartNumber, getArticleSlice } from "@/helpers/article";
+import LearningOutcomes from "./components/LearningOutcomes";
 
 type HomeContext = {
   articles?: Content.ArticlepageDocument[];
@@ -42,7 +43,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
             <div className="[&_h1]:text-[36px] lg:[&_h1]:text-[60px] [&_h1]:leading-[1.04] [&_h1]:tracking-[-0.72px] lg:[&_h1]:tracking-[-1.2px] [&_h1]:text-cream [&_h1]:font-normal">
               <PrismicRichText field={slice.primary.heading} />
             </div>
-            <div className="mt-6 lg:mt-8 [&_p]:text-sm lg:[&_p]:text-base [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-body-text [&_p]:opacity-60">
+            <div className="mt-6 lg:mt-8 [&_p]:text-sm lg:[&_p]:text-base [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-body-text">
               <PrismicRichText field={slice.primary.description} />
             </div>
             <div className="flex flex-wrap items-center gap-3 mt-8 lg:mt-10">
@@ -64,16 +65,16 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
       </section>
 
       {/* Table of Contents */}
-      {slice.primary.table_of_contents_heading && (
+      {slice.primary.table_of_contents_description && (
         <section className="border-b border-border">
           <div className="mx-auto max-w-360 px-4 lg:px-30 pt-12 pb-4 lg:pb-6">
             <div className="mb-4 lg:mb-[24px]">
               <p className="font-mono text-[12px] text-[rgba(255,250,234,0.6)] font-medium uppercase tracking-[0.96px] leading-[20px] mb-4 lg:mb-[24px]">
                 {articles.length} chapters
               </p>
-              <h2 className="text-[24px] lg:text-[32px] leading-none tracking-[-0.48px] lg:tracking-[-0.64px] text-cream font-normal">
-                {slice.primary.table_of_contents_heading}
-              </h2>
+              <p className="mt-6 lg:mt-8 text-sm text-base text-body-text">
+                {slice.primary.table_of_contents_description}
+              </p>
             </div>
           </div>
           <div className="border-t border-border" />
@@ -177,34 +178,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
             </div>
 
             {/* Learning outcomes list */}
-            <div className="flex flex-col w-full lg:w-[588px]">
-              {slice.primary.learning_outcomes.map((outcome, index) => {
-                const isLast = index === slice.primary.learning_outcomes.length - 1;
-                return (
-                  <div
-                    key={index}
-                    className={`flex items-start gap-4 lg:gap-28 py-4 lg:py-0 lg:h-[120px] lg:pt-[16px] ${
-                      !isLast ? "border-b border-border" : ""
-                    }`}
-                  >
-                    {outcome.outcome_image?.url && (
-                      <div className="w-[24px] h-[24px] flex-shrink-0 mt-[4px]">
-                        <PrismicNextImage
-                          alt=""
-                          field={outcome.outcome_image}
-                          width={24}
-                          height={24}
-                          className="w-[24px] h-[24px] object-contain"
-                        />
-                      </div>
-                    )}
-                    <div className="[&_p]:text-[18px] lg:[&_p]:text-[24px] [&_p]:leading-[26px] lg:[&_p]:leading-[32px] [&_p]:text-body-text [&_p]:font-normal">
-                      <PrismicRichText field={outcome.outcome_text} />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <LearningOutcomes outcomes={slice.primary.learning_outcomes} />
           </div>
         </section>
       )}
