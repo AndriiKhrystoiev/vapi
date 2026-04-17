@@ -83,8 +83,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
             {articles.map((article: Content.ArticlepageDocument, index: number) => {
               const articleSlice = getArticleSlice(article);
               if (!articleSlice) return null;
-              const { part_number, part_name, part_color, chapter } = articleSlice.primary;
-              const summary_description = (articleSlice.primary as Record<string, unknown>).summary_description as string | undefined;
+              const { brief_description, part_number, part_name, part_color, chapter } = articleSlice.primary;
               const chapterCount = chapter?.length ?? 0;
               const readingMinutes = formatListenMinutes(getArticleListenSeconds(article));
               const isLastRow = index >= articles.length - (articles.length % 3 || 3);
@@ -92,11 +91,11 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                 <Link
                   key={article.id}
                   href={article.url ?? "#"}
-                  className={`group relative flex flex-col justify-between min-h-[240px] lg:min-h-[376px] md:px-[24px] pt-8 lg:pt-[48px] pb-4 lg:pb-6 border-b border-border ${
+                  className={`group relative grid grid-rows-[subgrid] row-span-3 gap-4 lg:gap-6 min-h-[240px] lg:min-h-[376px] md:px-[24px] pt-8 lg:pt-[48px] pb-4 lg:pb-6 border-b border-border ${
                     index % 3 !== 0 ? "md:border-l md:border-l-border" : ""
                   } ${isLastRow ? "border-b-[rgba(255,250,235,0.12)]" : ""}`}
                 >
-                  <div>
+                  <div className="self-start">
                     {part_number != null && (
                       <p
                         className="font-medium text-[14px] lg:text-[16px] leading-[1.24] mb-3 lg:mb-[24px]"
@@ -109,27 +108,25 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                       {part_name}
                     </h3>
                   </div>
-                  <div>
-                    {summary_description && (
-                      <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60 mb-4 lg:mb-[24px]">
-                        {summary_description}
-                      </p>
-                    )}
-                    <div className="flex items-center justify-between">
-                      <p className="font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-[20px]">
-                        {chapterCount > 0 && (
-                          <>
-                            <span className="text-[rgba(255,250,234,0.6)]">
-                              ~{readingMinutes} &bull;
-                            </span>
-                            <span className="text-cream">
-                              {" "}{pluralize(chapterCount, "chapter")}
-                            </span>
-                          </>
-                        )}
-                      </p>
-                      <AngleDown className="text-muted group-hover:text-accent transition-colors" />
-                    </div>
+                  {brief_description && (
+                    <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60">
+                      {brief_description}
+                    </p>
+                  )}
+                  <div className="flex items-center justify-between self-end">
+                    <p className="font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-[20px]">
+                      {chapterCount > 0 && (
+                        <>
+                          <span className="text-[rgba(255,250,234,0.6)]">
+                            ~{readingMinutes} &bull;
+                          </span>
+                          <span className="text-cream">
+                            {" "}{pluralize(chapterCount, "chapter")}
+                          </span>
+                        </>
+                      )}
+                    </p>
+                    <AngleDown className="text-muted group-hover:text-accent transition-colors" />
                   </div>
                 </Link>
               );

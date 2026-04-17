@@ -49,6 +49,11 @@
 						]
 					}
 				]
+			},
+			"brief_description": {
+				"__TYPE__": "FieldContent",
+				"value": "proper",
+				"type": "Text"
 			}
 		},
 		"items": []

@@ -822,6 +822,16 @@ export interface StrategyAccordionSliceDefaultPrimary {
   part_color: prismic.ColorField;
 
   /**
+   * Brief description field in *Article → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: strategy_accordion.default.primary.brief_description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  brief_description: prismic.KeyTextField;
+
+  /**
    * Chapter field in *Article → Default → Primary*
    *
    * - **Field Type**: Group

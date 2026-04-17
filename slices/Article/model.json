@@ -33,6 +33,13 @@
             "placeholder": "Select part theme color"
           }
         },
+        "brief_description": {
+          "type": "Text",
+          "config": {
+            "label": "Brief description",
+            "placeholder": ""
+          }
+        },
         "chapter": {
           "type": "Group",
           "config": {
