@@ -95,28 +95,34 @@ export default function MobileTOCMenu({
 
             return (
               <div key={uid} className="border-t border-cream/12">
-                <button
-                  type="button"
-                  className="flex items-center w-full py-5 text-left cursor-pointer"
-                  onClick={() => handleToggle(uid)}
-                >
-                  <span
-                    className="text-sm tracking-[-0.28px] leading-4 font-medium w-[64px] shrink-0"
-                    style={{ color: partColor }}
+                <div className="flex items-center w-full py-5">
+                  <Link
+                    href={`/${uid}`}
+                    className="flex items-center flex-1 min-w-0 group"
+                    onClick={onClose}
                   >
-                    Part {partNumber}
-                  </span>
-                  <span className="text-sm tracking-[-0.28px] leading-4 font-medium text-cream flex-1">
-                    {partName}
-                  </span>
-                  <span className="ml-auto shrink-0">
+                    <span
+                      className="text-sm tracking-[-0.28px] leading-4 font-medium w-[64px] shrink-0"
+                      style={{ color: partColor }}
+                    >
+                      Part {partNumber}
+                    </span>
+                    <span className="text-sm tracking-[-0.28px] leading-4 font-medium text-cream flex-1 group-hover:text-accent transition-colors">
+                      {partName}
+                    </span>
+                  </Link>
+                  <button
+                    type="button"
+                    className="shrink-0 w-8 h-8 flex items-center justify-center cursor-pointer"
+                    onClick={() => handleToggle(uid)}
+                  >
                     {isExpanded ? (
                       <AngleDown color="rgba(255,250,234,0.6)" width={14} height={8} />
                     ) : (
                       <AngleRight color="rgba(255,250,234,0.6)" width={8} height={14} />
                     )}
-                  </span>
-                </button>
+                  </button>
+                </div>
 
                 {isExpanded && (
                   <div className="flex flex-col gap-2 pb-4">
