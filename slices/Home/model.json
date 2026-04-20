@@ -99,42 +99,6 @@
               }
             }
           }
-        },
-        "audience_section_heading": {
-          "type": "Text",
-          "config": {
-            "label": "Audience Section Heading",
-            "placeholder": "e.g., Who this playbook is for"
-          }
-        },
-        "audience_cards": {
-          "type": "Group",
-          "config": {
-            "label": "Audience Cards",
-            "fields": {
-              "audience_label": {
-                "type": "Text",
-                "config": {
-                  "label": "Audience Label",
-                  "placeholder": "e.g., P01"
-                }
-              },
-              "audience_title": {
-                "type": "Text",
-                "config": {
-                  "label": "Audience Title",
-                  "placeholder": "e.g., Product teams"
-                }
-              },
-              "audience_description": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Audience Description",
-                  "single": "paragraph"
-                }
-              }
-            }
-          }
         }
       },
       "items": {}

@@ -183,48 +183,6 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
         </section>
       )}
 
-      {/* Who this playbook is for */}
-      {slice.primary.audience_section_heading && (
-        <section id="audience" className="scroll-mt-16.75 mx-auto max-w-360 px-4 lg:px-30 pb-12 lg:pb-24">
-          <div className="flex flex-col gap-4 lg:gap-[24px] mb-10 lg:mb-[96px]">
-            <p className="font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-[20px] text-[#9977ff]">
-              audience
-            </p>
-            <h2 className="text-[32px] lg:text-[60px] leading-[1.04] tracking-[-0.64px] lg:tracking-[-1.2px] text-[#fffaeb] font-normal">
-              {slice.primary.audience_section_heading}
-            </h2>
-          </div>
-
-          <div className="border border-border grid grid-cols-1 lg:grid-cols-3">
-            {slice.primary.audience_cards.map((card, index) => (
-              <div
-                key={index}
-                className={`relative px-4 lg:px-[24px] py-6 lg:pt-[24px] lg:pb-6 min-h-50 lg:min-h-80 flex flex-col justify-between ${
-                  index !== 0 ? "border-t lg:border-t-0 lg:border-l border-border" : ""
-                }`}
-              >
-                <div>
-                  {card.audience_label && (
-                    <span className="inline-flex items-center justify-center px-[8px] h-[26px] rounded-full border border-[#a1a1aa] font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-[20px] text-[#a1a1aa]">
-                      {String(index + 1).padStart(3, "0")}
-                    </span>
-                  )}
-                </div>
-                <div>
-                  {card.audience_title && (
-                    <h3 className="text-[24px] lg:text-[32px] leading-none tracking-[-0.48px] lg:tracking-[-0.64px] text-cream font-normal mb-[8px]">
-                      {card.audience_title}
-                    </h3>
-                  )}
-                  <div className="[&_p]:text-[14px] lg:[&_p]:text-[16px] [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-body-text [&_p]:opacity-60 lg:w-[90%]">
-                    <PrismicRichText field={card.audience_description} />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
 
     </div>
   );

@@ -11,6 +11,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "audience_grid": {
+              "type": "SharedSlice"
+            },
             "guide_playbook_hero": {
               "type": "SharedSlice"
             }

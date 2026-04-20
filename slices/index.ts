@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 
 export const components = {
+  audience_grid: dynamic(() => import("./AudienceBlock")),
   chapter: dynamic(() => import("./Chapter")),
   cta: dynamic(() => import("./Footer")),
   guide_playbook_hero: dynamic(() => import("./Home")),

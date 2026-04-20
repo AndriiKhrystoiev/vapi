@@ -172,7 +172,9 @@ export type FooterDocument<Lang extends string = string> =
     Lang
   >;
 
-type HomePageDocumentDataSlicesSlice = GuidePlaybookHeroSlice;
+type HomePageDocumentDataSlicesSlice =
+  | AudienceGridSlice
+  | GuidePlaybookHeroSlice;
 
 /**
  * Content for Home page documents
@@ -311,6 +313,149 @@ export type AllDocumentTypes =
   | HomePageDocument
   | SociallinksDocument
   | TopBarDocument;
+
+/**
+ * Item in *AudienceBlock → Default → Primary → Audience Cards → Chapters List*
+ */
+export interface AudienceGridSliceDefaultPrimaryCardsChaptersListItem {
+  /**
+   * Chapter Number field in *AudienceBlock → Default → Primary → Audience Cards → Chapters List*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g., Ch 5
+   * - **API ID Path**: audience_grid.default.primary.cards[].chapters_list[].chapter_number
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  chapter_number: prismic.KeyTextField;
+
+  /**
+   * Chapter link field in *AudienceBlock → Default → Primary → Audience Cards → Chapters List*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audience_grid.default.primary.cards[].chapters_list[].chapter_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  chapter_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
+ * Item in *AudienceBlock → Default → Primary → Audience Cards*
+ */
+export interface AudienceGridSliceDefaultPrimaryCardsItem {
+  /**
+   * Card Title field in *AudienceBlock → Default → Primary → Audience Cards*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audience_grid.default.primary.cards[].title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Card Description field in *AudienceBlock → Default → Primary → Audience Cards*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audience_grid.default.primary.cards[].description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Chapters Info field in *AudienceBlock → Default → Primary → Audience Cards*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g., Chapters 5-8, 21, 28-29
+   * - **API ID Path**: audience_grid.default.primary.cards[].chapters_info
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  chapters_info: prismic.KeyTextField;
+
+  /**
+   * Chapters List field in *AudienceBlock → Default → Primary → Audience Cards*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audience_grid.default.primary.cards[].chapters_list[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  chapters_list: prismic.NestedGroupField<
+    Simplify<AudienceGridSliceDefaultPrimaryCardsChaptersListItem>
+  >;
+}
+
+/**
+ * Primary content in *AudienceBlock → Default → Primary*
+ */
+export interface AudienceGridSliceDefaultPrimary {
+  /**
+   * Label field in *AudienceBlock → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g., AUDIENCE
+   * - **API ID Path**: audience_grid.default.primary.label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * Heading field in *AudienceBlock → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: e.g., Who this playbook is for.
+   * - **API ID Path**: audience_grid.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Audience Cards field in *AudienceBlock → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audience_grid.default.primary.cards[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  cards: prismic.GroupField<Simplify<AudienceGridSliceDefaultPrimaryCardsItem>>;
+}
+
+/**
+ * Default variation for AudienceBlock Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default variation with audience grid layout
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type AudienceGridSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<AudienceGridSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *AudienceBlock*
+ */
+type AudienceGridSliceVariation = AudienceGridSliceDefault;
+
+/**
+ * AudienceBlock Shared Slice
+ *
+ * - **API ID**: `audience_grid`
+ * - **Description**: A grid section displaying multiple audience cards with titles, descriptions, and related chapters.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type AudienceGridSlice = prismic.SharedSlice<
+  "audience_grid",
+  AudienceGridSliceVariation
+>;
 
 /**
  * Item in *Chapter → Default → Primary → Chapter*
@@ -490,41 +635,6 @@ export interface GuidePlaybookHeroSliceDefaultPrimaryLearningOutcomesItem {
 }
 
 /**
- * Item in *Home → HomePage → Primary → Audience Cards*
- */
-export interface GuidePlaybookHeroSliceDefaultPrimaryAudienceCardsItem {
-  /**
-   * Audience Label field in *Home → HomePage → Primary → Audience Cards*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: e.g., P01
-   * - **API ID Path**: guide_playbook_hero.default.primary.audience_cards[].audience_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  audience_label: prismic.KeyTextField;
-
-  /**
-   * Audience Title field in *Home → HomePage → Primary → Audience Cards*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: e.g., Product teams
-   * - **API ID Path**: guide_playbook_hero.default.primary.audience_cards[].audience_title
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  audience_title: prismic.KeyTextField;
-
-  /**
-   * Audience Description field in *Home → HomePage → Primary → Audience Cards*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: guide_playbook_hero.default.primary.audience_cards[].audience_description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  audience_description: prismic.RichTextField;
-}
-
-/**
  * Primary content in *Home → HomePage → Primary*
  */
 export interface GuidePlaybookHeroSliceDefaultPrimary {
@@ -610,28 +720,6 @@ export interface GuidePlaybookHeroSliceDefaultPrimary {
    */
   learning_outcomes: prismic.GroupField<
     Simplify<GuidePlaybookHeroSliceDefaultPrimaryLearningOutcomesItem>
-  >;
-
-  /**
-   * Audience Section Heading field in *Home → HomePage → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: e.g., Who this playbook is for
-   * - **API ID Path**: guide_playbook_hero.default.primary.audience_section_heading
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  audience_section_heading: prismic.KeyTextField;
-
-  /**
-   * Audience Cards field in *Home → HomePage → Primary*
-   *
-   * - **Field Type**: Group
-   * - **Placeholder**: *None*
-   * - **API ID Path**: guide_playbook_hero.default.primary.audience_cards[]
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */
-  audience_cards: prismic.GroupField<
-    Simplify<GuidePlaybookHeroSliceDefaultPrimaryAudienceCardsItem>
   >;
 }
 
@@ -1082,6 +1170,12 @@ declare module "@prismicio/client" {
       TopBarDocumentData,
       TopBarDocumentDataSlicesSlice,
       AllDocumentTypes,
+      AudienceGridSlice,
+      AudienceGridSliceDefaultPrimaryCardsChaptersListItem,
+      AudienceGridSliceDefaultPrimaryCardsItem,
+      AudienceGridSliceDefaultPrimary,
+      AudienceGridSliceVariation,
+      AudienceGridSliceDefault,
       ChapterSlice,
       ChapterSliceDefaultPrimaryChapterItem,
       ChapterSliceDefaultPrimary,
@@ -1094,7 +1188,6 @@ declare module "@prismicio/client" {
       CtaSliceDefault,
       GuidePlaybookHeroSlice,
       GuidePlaybookHeroSliceDefaultPrimaryLearningOutcomesItem,
-      GuidePlaybookHeroSliceDefaultPrimaryAudienceCardsItem,
       GuidePlaybookHeroSliceDefaultPrimary,
       GuidePlaybookHeroSliceVariation,
       GuidePlaybookHeroSliceDefault,

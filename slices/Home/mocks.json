@@ -98,51 +98,6 @@
 					}
 				]
 			},
-			"audience_section_heading": {
-				"__TYPE__": "FieldContent",
-				"value": "car",
-				"type": "Text"
-			},
-			"audience_cards": {
-				"__TYPE__": "GroupContentType",
-				"value": [
-					{
-						"__TYPE__": "GroupItemContent",
-						"value": [
-							[
-								"audience_label",
-								{
-									"__TYPE__": "FieldContent",
-									"value": "win",
-									"type": "Text"
-								}
-							],
-							[
-								"audience_title",
-								{
-									"__TYPE__": "FieldContent",
-									"value": "large",
-									"type": "Text"
-								}
-							],
-							[
-								"audience_description",
-								{
-									"__TYPE__": "StructuredTextContent",
-									"value": [
-										{
-											"type": "paragraph",
-											"content": {
-												"text": "Ex laboris in reprehenderit laborum consectetur laboris."
-											}
-										}
-									]
-								}
-							]
-						]
-					}
-				]
-			},
 			"newsletter_button": {
 				"key": "f210fc2a-8ddb-4726-8c23-44fe867732ca",
 				"__TYPE__": "LinkContent",

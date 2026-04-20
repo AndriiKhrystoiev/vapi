@@ -1,0 +1,104 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"label": {
+				"__TYPE__": "FieldContent",
+				"value": "meat",
+				"type": "Text"
+			},
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Smaller"
+						}
+					}
+				]
+			},
+			"cards": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"title",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "heading3",
+											"content": {
+												"text": "Block"
+											}
+										}
+									]
+								}
+							],
+							[
+								"description",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Qui commodo reprehenderit irure nostrud aute ad minim. Lorem pariatur ullamco id."
+											}
+										}
+									]
+								}
+							],
+							[
+								"chapters_info",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "birthday",
+									"type": "Text"
+								}
+							],
+							[
+								"chapters_list",
+								{
+									"__TYPE__": "GroupContentType",
+									"value": [
+										{
+											"__TYPE__": "GroupItemContent",
+											"value": [
+												[
+													"chapter_number",
+													{
+														"__TYPE__": "FieldContent",
+														"value": "advice",
+														"type": "Text"
+													}
+												],
+												[
+													"chapter_link",
+													{
+														"__TYPE__": "LinkContent",
+														"key": "619becda-592b-4df1-be12-589eeb7880a1",
+														"value": {
+															"__TYPE__": "ExternalLink",
+															"url": "https://prismic.io",
+															"text": "consider"
+														}
+													}
+												]
+											]
+										}
+									]
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]
