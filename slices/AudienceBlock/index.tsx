@@ -20,83 +20,77 @@ function AudienceCard({
 
   return (
     <div
-      className={`relative px-4 lg:px-6 py-6 lg:pt-6 lg:pb-6 min-h-50 lg:min-h-80 flex flex-col justify-between ${
+      className={`relative px-4 lg:px-6 pb-6 pt-8 min-h-50 lg:min-h-80 grid grid-rows-[subgrid] row-span-4 gap-6 ${
         index !== 0 ? "border-t lg:border-t-0 lg:border-l border-border" : ""
       }`}
     >
-      {/* Numbered badge */}
-      <div>
-        <span className="inline-flex items-center justify-center px-2 h-[26px] rounded-full border border-[#a1a1aa] font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-5 text-[#a1a1aa]">
-          {String(index + 1).padStart(3, "0")}
-        </span>
+      {/* Title */}
+      <div className="[&_h3]:text-[24px] lg:[&_h3]:text-[32px] [&_h3]:leading-none [&_h3]:tracking-[-0.48px] lg:[&_h3]:tracking-[-0.64px] [&_h3]:text-cream [&_h3]:font-normal">
+        <PrismicRichText field={card.title} />
       </div>
 
-      {/* Bottom content */}
-      <div className="mt-32">
-        {/* Title */}
-        <div className="[&_h3]:text-[24px] lg:[&_h3]:text-[32px] [&_h3]:leading-none [&_h3]:tracking-[-0.48px] lg:[&_h3]:tracking-[-0.64px] [&_h3]:text-cream [&_h3]:font-normal [&_h3]:mb-6">
-          <PrismicRichText field={card.title} />
-        </div>
+      {/* Description */}
+      <div className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60 self-start">
+        <PrismicRichText field={card.description} />
+      </div>
 
-        {/* Description */}
-        <div className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60">
-          <PrismicRichText field={card.description} />
-        </div>
-
-        {/* Chapter range info */}
+      {/* Chapter range info */}
+      <div className="self-start">
         {card.chapters_info && (
-          <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60 mt-3">
+          <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60">
             {card.chapters_info}
           </p>
         )}
       </div>
 
       {/* See key chapters toggle + list */}
-      {chapters.length > 0 && (
-        <div className="mt-8">
-          <button
-            type="button"
-            className="flex items-center gap-2 cursor-pointer mb-2"
-            onClick={() => setIsExpanded((prev) => !prev)}
-          >
-            <span
-              className={`shrink-0 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+      <div className="self-end">
+        {chapters.length > 0 && (
+          <>
+            <button
+              type="button"
+              className="flex items-center gap-2 cursor-pointer mb-2"
+              onClick={() => setIsExpanded((prev) => !prev)}
             >
-              <AngleDown color="#e96b34" width={14} height={8} />
-            </span>
-            <span className="font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-5 text-[#e96b34]">
-              See key chapters
-            </span>
-          </button>
+              <span
+                className={`shrink-0 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+              >
+                <AngleDown color="#e96b34" width={14} height={8} />
+              </span>
+              <span className="font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-5 text-[#e96b34]">
+                See key chapters
+              </span>
+            </button>
 
-          <div
-            className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
-              isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-            }`}
-          >
-            <div className="overflow-hidden">
-              <div className="flex flex-col pt-2">
-                {chapters.map((chapter, idx) => (
-                  <PrismicNextLink
-                    key={idx}
-                    field={chapter.chapter_link}
-                    className="flex items-center justify-between py-2 border-t border-border group"
-                  >
-                    <span className="text-[14px] leading-[22px] text-body-text group-hover:text-cream transition-colors">
-                      {chapter.chapter_link.text}
-                    </span>
-                    {chapter.chapter_number && (
-                      <span className="font-mono text-[12px] font-medium tracking-[0.96px] text-[#e96b34] shrink-0 ml-4">
-                        {chapter.chapter_number}
+            <div
+              className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="flex flex-col pt-2">
+                  {chapters.map((chapter, idx) => (
+                    <PrismicNextLink
+                      key={idx}
+                      field={chapter.chapter_link}
+                      className="flex items-center justify-between py-2 border-t border-border group"
+                    >
+                      <span className="text-[14px] leading-[22px] text-body-text group-hover:text-cream transition-colors">
+                        {chapter.chapter_link.text}
                       </span>
-                    )}
-                  </PrismicNextLink>
-                ))}
+                      {chapter.chapter_number && (
+                        <span className="font-mono text-[12px] font-medium tracking-[0.96px] text-[#e96b34] shrink-0 ml-4">
+                          {chapter.chapter_number}
+                        </span>
+                      )}
+                    </PrismicNextLink>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
@@ -120,7 +114,7 @@ const AudienceGrid: FC<AudienceGridProps> = ({ slice }) => {
         </div>
       </div>
 
-      <div className="border border-border grid grid-cols-1 lg:grid-cols-4">
+      <div className="border border-border grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-[auto]">
         {slice.primary.cards.map((card, index) => (
           <AudienceCard key={index} card={card} index={index} />
         ))}
