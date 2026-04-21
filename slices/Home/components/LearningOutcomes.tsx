@@ -54,7 +54,7 @@ export default function LearningOutcomes({ outcomes }: { outcomes: Outcome[] }) 
               }`}
             >
               <div className="overflow-hidden">
-                <div className="pt-3 pl-10 [&_p]:text-[14px] lg:[&_p]:text-[16px] [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-body-text [&_p]:opacity-60">
+                <div className="pt-3 pl-10 text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60">
                   <PrismicRichText field={outcome.outcome_text} />
                 </div>
               </div>

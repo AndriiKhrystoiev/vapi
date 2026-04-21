@@ -20,30 +20,40 @@ function AudienceCard({
 
   return (
     <div
-      className={`relative px-4 lg:px-6 py-6 min-h-50 lg:min-h-80 flex flex-col ${
+      className={`relative px-4 lg:px-6 py-6 lg:pt-6 lg:pb-6 min-h-50 lg:min-h-80 flex flex-col justify-between ${
         index !== 0 ? "border-t lg:border-t-0 lg:border-l border-border" : ""
       }`}
     >
-      {/* Title */}
-      <div className="[&_h3]:text-[24px] lg:[&_h3]:text-[32px] [&_h3]:leading-none [&_h3]:tracking-[-0.48px] lg:[&_h3]:tracking-[-0.64px] [&_h3]:text-cream [&_h3]:font-normal [&_h3]:mb-2">
-        <PrismicRichText field={card.title} />
+      {/* Numbered badge */}
+      <div>
+        <span className="inline-flex items-center justify-center px-2 h-[26px] rounded-full border border-[#a1a1aa] font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-5 text-[#a1a1aa]">
+          {String(index + 1).padStart(3, "0")}
+        </span>
       </div>
 
-      {/* Description */}
-      <div className="[&_p]:text-[14px] lg:[&_p]:text-[16px] [&_p]:leading-[22px] lg:[&_p]:leading-[24px] [&_p]:text-body-text [&_p]:opacity-60 mb-3">
-        <PrismicRichText field={card.description} />
-      </div>
+      {/* Bottom content */}
+      <div className="mt-32">
+        {/* Title */}
+        <div className="[&_h3]:text-[24px] lg:[&_h3]:text-[32px] [&_h3]:leading-none [&_h3]:tracking-[-0.48px] lg:[&_h3]:tracking-[-0.64px] [&_h3]:text-cream [&_h3]:font-normal [&_h3]:mb-6">
+          <PrismicRichText field={card.title} />
+        </div>
 
-      {/* Chapter range info */}
-      {card.chapters_info && (
-        <p className="font-mono text-[12px] font-medium text-body-text opacity-60 tracking-[0.96px] leading-5 mb-4">
-          {card.chapters_info}
-        </p>
-      )}
+        {/* Description */}
+        <div className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60">
+          <PrismicRichText field={card.description} />
+        </div>
+
+        {/* Chapter range info */}
+        {card.chapters_info && (
+          <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60 mt-3">
+            {card.chapters_info}
+          </p>
+        )}
+      </div>
 
       {/* See key chapters toggle + list */}
       {chapters.length > 0 && (
-        <div className="mt-auto">
+        <div className="mt-8">
           <button
             type="button"
             className="flex items-center gap-2 cursor-pointer mb-2"
