@@ -38,11 +38,12 @@ export default function ChapterSection({ chapter, index, isLast, isRead, onMarkR
           </h2>
           {/* Listen + Checkmark — desktop only (mobile version is fixed bar) */}
           <div className="hidden lg:flex items-center gap-2 sm:ml-auto shrink-0">
-            <ListenButton
+            {/* TODO: Temporary hide functionality */}
+            {/* <ListenButton
               text={listenData.text}
               duration={listenData.formatted}
               size="md"
-            />
+            /> */}
             <button
               type="button"
               onClick={onMarkRead}

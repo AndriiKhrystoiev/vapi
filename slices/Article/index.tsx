@@ -161,12 +161,13 @@ const StrategyAccordion: FC<StrategyAccordionProps> = ({ slice, context }) => {
             Chapter {activeChapterIndex + 1}
           </p>
           <div className="flex items-center gap-2">
-            <ListenButton
+            {/* TODO: Temporary hide functionality */}
+            {/* <ListenButton
               key={`listen-${activeChapterIndex}`}
               text={activeListenData.text}
               duration={activeListenData.formatted}
               size="sm"
-            />
+            /> */}
             <button
               key={`mark-${activeChapterIndex}`}
               type="button"
