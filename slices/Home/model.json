@@ -56,13 +56,6 @@
             ]
           }
         },
-        "table_of_contents_description": {
-          "type": "Text",
-          "config": {
-            "label": "Table of Contents Description",
-            "placeholder": "e.g., Table of Contents"
-          }
-        },
         "learning_section_heading": {
           "type": "Text",
           "config": {

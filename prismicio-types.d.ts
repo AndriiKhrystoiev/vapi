@@ -691,16 +691,6 @@ export interface GuidePlaybookHeroSliceDefaultPrimary {
   >;
 
   /**
-   * Table of Contents Description field in *Home → HomePage → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: e.g., Table of Contents
-   * - **API ID Path**: guide_playbook_hero.default.primary.table_of_contents_description
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  table_of_contents_description: prismic.KeyTextField;
-
-  /**
    * Learning Section Heading field in *Home → HomePage → Primary*
    *
    * - **Field Type**: Text

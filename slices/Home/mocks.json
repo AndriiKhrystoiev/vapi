@@ -107,11 +107,6 @@
 					"text": "leaf",
 					"variant": "Secondary"
 				}
-			},
-			"table_of_contents_description": {
-				"__TYPE__": "FieldContent",
-				"value": "cake",
-				"type": "Text"
 			}
 		},
 		"items": []

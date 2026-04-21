@@ -65,19 +65,8 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
       </section>
 
       {/* Table of Contents */}
-      {slice.primary.table_of_contents_description && (
+      {articles.length > 0 && (
         <section className="border-b border-border">
-          <div className="mx-auto max-w-360 px-4 lg:px-30 pt-12 pb-4 lg:pb-6">
-            <div className="mb-4 lg:mb-[24px]">
-              <p className="font-mono text-[12px] text-[rgba(255,250,234,0.6)] font-medium uppercase tracking-[0.96px] leading-[20px] mb-4 lg:mb-[24px]">
-                {articles.length} chapters
-              </p>
-              <p className="mt-6 lg:mt-8 text-sm text-base text-body-text">
-                {slice.primary.table_of_contents_description}
-              </p>
-            </div>
-          </div>
-          <div className="border-t border-border" />
           <div className="mx-auto max-w-360 px-4 lg:px-30 -mb-[1px]">
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -109,7 +98,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                     </h3>
                   </div>
                   {brief_description && (
-                    <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60 self-end">
+                    <p className="text-[14px] lg:text-[16px] leading-[22px] lg:leading-[24px] text-body-text opacity-60">
                       {brief_description}
                     </p>
                   )}
@@ -155,7 +144,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
 
       {/* What you'll learn */}
       {slice.primary.learning_section_heading && (
-        <section id="overview" className="scroll-mt-16.75 mx-auto max-w-360 px-4 lg:px-30 py-12">
+        <section id="overview" className="scroll-mt-16.75 mx-auto max-w-360 px-4 lg:px-30 pt-12 pb-12 lg:pb-0">
           <div className="flex flex-col gap-4 lg:gap-[24px] mb-8 lg:mb-[48px]">
             <p className="font-mono text-[12px] font-medium uppercase tracking-[0.96px] leading-[20px] text-[#e96b34]">
               overview
