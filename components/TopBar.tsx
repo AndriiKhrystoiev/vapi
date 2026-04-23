@@ -52,12 +52,13 @@ export default function TopBar({ headerLinks, ctaButton }: TopBarProps) {
           {/* Spacer for mobile */}
           <div className="flex-1 lg:hidden" />
 
+          {/* TODO: Temporary hide functionality */}
           {/* CTA Button — desktop only */}
-          <PrismicNextLink field={ctaButton} className="hidden lg:block">
+          {/* <PrismicNextLink field={ctaButton} className="hidden lg:block">
             <CTAButton variant="outline" size="small">
               {ctaButton.text}
             </CTAButton>
-          </PrismicNextLink>
+          </PrismicNextLink> */}
 
           {/* Mobile menu button */}
           <button
@@ -90,14 +91,15 @@ export default function TopBar({ headerLinks, ctaButton }: TopBarProps) {
             </div>
           </div>
 
+          {/* TODO: Temporary hide functionality */}
           {/* Fixed bottom CTA */}
-          <div className="shrink-0 px-4 py-6 border-t border-cream/12">
+          {/* <div className="shrink-0 px-4 py-6 border-t border-cream/12">
             <PrismicNextLink field={ctaButton} onClick={() => setMenuOpen(false)}>
               <CTAButton as="span" variant="outline" size="small">
                 {ctaButton.text}
               </CTAButton>
             </PrismicNextLink>
-          </div>
+          </div> */}
         </div>
       )}
     </>

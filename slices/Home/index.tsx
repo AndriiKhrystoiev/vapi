@@ -117,7 +117,8 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                     </p>
                   </div>
                   <div className="flex items-center gap-4 justify-between">
-                    <a
+                    {/* TODO: Temporary hide functionality */}
+                    {/* <a
                       href={`/api/pdf/${article.uid}`}
                       className="w-1/2"
                       download
@@ -125,7 +126,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                       <CTAButton className="w-full text-center" as="span" variant="secondary" size="small" icon={<AngleDown />}>
                         PDF
                       </CTAButton>
-                    </a>
+                    </a> */}
                     <Link className="w-1/2" href={article.url ?? "#"}>
                       <CTAButton className="w-full" as="span" variant="primary" size="small">
                         View
