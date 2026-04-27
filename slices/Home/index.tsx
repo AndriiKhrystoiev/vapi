@@ -128,7 +128,7 @@ const GuidePlaybookHero: FC<GuidePlaybookHeroProps> = ({ slice, context }) => {
                       </CTAButton>
                     </a> */}
                     <Link className="w-1/2" href={article.url ?? "#"}>
-                      <CTAButton className="w-full" as="span" variant="primary" size="small">
+                      <CTAButton className="w-full" as="span" variant="cream" size="small">
                         View
                       </CTAButton>
                     </Link>

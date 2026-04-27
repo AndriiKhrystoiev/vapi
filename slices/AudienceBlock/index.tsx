@@ -44,7 +44,7 @@ function AudienceCard({
       </div>
 
       {/* See key chapters toggle + list */}
-      <div className="self-end">
+      <div>
         {chapters.length > 0 && (
           <>
             <button
