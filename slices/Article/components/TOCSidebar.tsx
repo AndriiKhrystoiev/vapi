@@ -105,7 +105,7 @@ export default function TOCSidebar({
               {isExpanded && (
                 <div className="flex flex-col gap-2 pb-4">
                   {displayTitles.map((title, idx) => {
-                    const isRead = isCurrent && (readChapters?.has(idx) || idx < activeChapterIndex);
+                    const isRead = isCurrent && (readChapters?.has(idx) || idx <= activeChapterIndex);
                     const isActive = isCurrent && idx === activeChapterIndex;
                     const textColor = isRead
                       ? "text-accent"
